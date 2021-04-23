@@ -22,7 +22,7 @@
 // document.onkeyup = doSomethingWithSelectedText;
 
 $(function () {
-	var color = $("fontColor").val();
+	var color = $("#fontColor").val();
 	$("#fontColor").on("change paste keyup", function () {
 		color = $(this).val();
 	});

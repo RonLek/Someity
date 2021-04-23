@@ -4,6 +4,6 @@ chrome.runtime.sendMessage({ greeting: "removeCookie" }, function (response) {
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	if (request.todo == "changeColor") {
-		$(".stack").css("color", request.clickedColor);
+		$("body").css("color", request.clickedColor + "!important");
 	}
 });
