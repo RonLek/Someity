@@ -6,9 +6,32 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>I4ALL</title>
 		<script src="jquery-3.1.0.min.js"></script>
+		<script src="jscolor.min.js"></script>
+		<link rel="stylesheet" href="popup.css" />
 	</head>
 	<body>
 		<h2>Hi, Welcome</h2>
+		<div>
+			<input value="#3399FF80" id="fontColor" data-jscolor="{}" />
+			<input type="submit" value="Change" id="btnChange" />
+		</div>
+		<div>
+			<h3>Font</h3>
+			Font Options
+			<form id="myform">
+				<select id="fontTypeDropDown">
+					<option value="Arial">Arial</option>
+					<option value="Verdana ">Verdana</option>
+					<option value="Impact ">Impact</option>
+					<option value="Comic Sans MS">Comic Sans MS</option>
+					<option value="sign-language">Sign Language</option>
+				</select>
+				<label class="switch">
+					<input type="checkbox" id="fontTypeButton" />
+					<span class="slider round"></span>
+				</label>
+			</form>
+		</div>
 	</body>
-	<!-- <script src="popup.js"></script> -->
+	<script src="popup.js"></script>
 </html>

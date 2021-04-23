@@ -6,7 +6,7 @@
 	"background": {
 		"service_worker": "background.js"
 	},
-	"permissions": ["activeTab", "clipboardRead", "storage"],
+	"permissions": ["tabs", "clipboardRead", "storage", "tts"],
 	"action": {
 		"default_popup": "popup.html",
 		"default_icon": "icon.png"
@@ -14,13 +14,21 @@
 	"content_scripts": [
 		{
 			"matches": ["http://*/*", "https://*/*", "file://*/*"],
+			"css": ["contentCss.css"],
 			"js": ["contentScript.js", "jquery-3.1.0.min.js"]
 		}
 	],
+
 	"icons": {
 		"16": "icon.png",
 		"32": "icon.png",
 		"48": "icon.png",
 		"128": "icon.png"
-	  }
+	},
+	"web_accessible_resources": [
+		{
+			"resources": ["scripts/css/fonts/Sign-Language.ttf", "scripts/css/*"],
+			"matches": ["http://*/*", "https://*/*", "file://*/*"]
+		}
+	]
 }
