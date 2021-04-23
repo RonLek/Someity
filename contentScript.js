@@ -1,3 +1,4 @@
+
 // Changing color of font
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	if (message.todo == "changeColor") {
@@ -67,3 +68,11 @@ function returingSelectedText() {
 
 document.onmouseup = returingSelectedText;
 document.onkeyup = returingSelectedText;
+
+// Hides all images
+var images = document.getElementsByTagName('img');
+for (var i = 0, l = images.length; i < l; i++) {
+	images[i].removeAttribute("srcset")
+  images[i].src = 'https://via.placeholder.com/' + images[i].width + 'x' + images[i].height + '?text='+images[i].alt.replace(/ /g, "+");;
+}
+

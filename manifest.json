@@ -14,6 +14,7 @@
 	"content_scripts": [
 		{
 			"matches": ["http://*/*", "https://*/*", "file://*/*"],
+
 			"css": ["contentCss.css"],
 			"js": ["contentScript.js", "jquery-3.1.0.min.js"]
 		}
