@@ -18,3 +18,10 @@
 // 	// }
 // 	alert(request);
 // });
+
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+	if (message.todo == "textSelected") {
+		console.log(message.textSelected);
+		sendResponse({ received: "ok" });
+	}
+});
