@@ -2,14 +2,19 @@
 	"name": "I4All",
 	"description": "Making Web Accessible 4 All",
 	"version": "1.0",
-	"manifest_version": 2,
-	"browser_action": {
-		"default_icon": "icon.png",
-		"default_popup": "popup.html"
-	},
+	"manifest_version": 3,
 	"background": {
-		"scripts": ["background.js"],
-		"persistent": false
+		"service_worker": "background.js"
 	},
-	"permissions": ["activeTab", "clipboardRead", "storage"]
+	"permissions": ["activeTab", "clipboardRead", "storage"],
+	"action": {
+		"default_popup": "popup.html",
+		"default_icon": "icon.png"
+	},
+	"icons": {
+		"16": "icon.png",
+		"32": "icon.png",
+		"48": "icon.png",
+		"128": "icon.png"
+	  }
 }
