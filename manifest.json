@@ -6,7 +6,7 @@
 	"background": {
 		"service_worker": "background.js"
 	},
-	"permissions": ["tabs", "clipboardRead", "storage"],
+	"permissions": ["activeTab", "clipboardRead", "storage"],
 	"action": {
 		"default_popup": "popup.html",
 		"default_icon": "icon.png"
@@ -14,15 +14,13 @@
 	"content_scripts": [
 		{
 			"matches": ["http://*/*", "https://*/*", "file://*/*"],
-			"css": ["contentCss.css"],
 			"js": ["contentScript.js", "jquery-3.1.0.min.js"]
 		}
 	],
-
 	"icons": {
 		"16": "icon.png",
 		"32": "icon.png",
 		"48": "icon.png",
 		"128": "icon.png"
-	}
+	  }
 }
