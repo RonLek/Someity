@@ -1,4 +1,3 @@
-
 // Changing color of font
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	if (message.todo == "changeColor") {
@@ -28,6 +27,12 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 			if (message.fontFamily == "sign-language") {
 				$(
 					"<link rel='stylesheet' type='text/css' id='i4all-font-family' href='chrome-extension://bgfcegoaicoaioeabfkmpjpekpdkllml/scripts/css/sign-language.css'>"
+				).appendTo("head");
+			} else {
+				$(
+					"<style id='i4all-font-family'> p,a,h1,h2,h4,h3,h5,h6,input,ul,span,strong,th,td,ul,li,ol,button  { font-family: " +
+						message.fontFamily +
+						"!important; }</style>"
 				).appendTo("head");
 			}
 		}
@@ -70,9 +75,14 @@ document.onmouseup = returingSelectedText;
 document.onkeyup = returingSelectedText;
 
 // Hides all images
-var images = document.getElementsByTagName('img');
+var images = document.getElementsByTagName("img");
 for (var i = 0, l = images.length; i < l; i++) {
-	images[i].removeAttribute("srcset")
-  images[i].src = 'https://via.placeholder.com/' + images[i].width + 'x' + images[i].height + '?text='+images[i].alt.replace(/ /g, "+");;
+	images[i].removeAttribute("srcset");
+	images[i].src =
+		"https://via.placeholder.com/" +
+		images[i].width +
+		"x" +
+		images[i].height +
+		"?text=" +
+		images[i].alt.replace(/ /g, "+");
 }
-
