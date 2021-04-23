@@ -1,8 +1,8 @@
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-	if (message.greeting == "removeCookie") {
-		sendResponse({ farewell: "cookie clean" });
-	}
-});
+// chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+// 	if (message.greeting == "removeCookie") {
+// 		sendResponse({ farewell: "cookie clean" });
+// 	}
+// });
 
 // chrome.runtime.onInstalled.addListener(function () {
 // 	chrome.storage.sync.set({ color: "#3aa757" }, function () {
