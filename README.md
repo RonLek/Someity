@@ -1,2 +1,2 @@
-# i4all-hack-ac
-Making the web accessible for all.
+# I4All
+Internet for All.
