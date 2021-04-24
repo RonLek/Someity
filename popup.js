@@ -41,36 +41,10 @@ for (var i = 0; i < colors.length; i++) {
 
 // On popup load function
 $(function () {
-  chrome.storage.sync.get("clickedColor", function (stored) {
-    $("#fontColor").val(stored.clickedColor);
-  });
-
-  chrome.storage.sync.get("fontFamily", function (stored) {
-    $("#fontTypeDropDown").val(stored.fontFamily);
-  });
 
   chrome.storage.sync.get("assistant_enable", function (stored) {
     assistant_enable_stored = stored.assistant_enable;
     console.log(assistant_enable_stored);
-  });
-
-  chrome.storage.sync.get("fontTypeButton", function (stored) {
-    $("#fontTypeButton").prop("checked", stored.fontTypeButton);
-    if (stored.fontTypeButton) {
-      document.getElementById("font-type-switch-header").textContent = "On";
-    } else {
-      document.getElementById("font-type-switch-header").textContent = "Off";
-    }
-  });
-
-  chrome.storage.sync.get("fontSizeButton", function (stored) {
-    $("#fontSizeButton").prop("checked", stored.fontSizeButton);
-
-    if (stored.fontSizeButton) {
-      document.getElementById("font-size-switch-header").textContent = "On";
-    } else {
-      document.getElementById("font-size-switch-header").textContent = "Off";
-    }
   });
 
   // Font Slider Setting
@@ -131,8 +105,8 @@ $(function () {
   });
 
   // Highlight Words Setting
-  chrome.storage.sync.get("highlightButton", function (stored) {
-    $("#highlightButton").prop("checked", stored.highlightButton);
+  chrome.storage.sync.get("highlightWordsButton", function (stored) {
+    $("#highlightWordsButton").prop("checked", stored.highlightWordsButton);
   });
 });
 
@@ -303,8 +277,8 @@ $("#magnifierButton").bind("change", function (data) {
   });
 });
 
-// Highlight Button
-$("#highlightButton").bind("change", function (data) {
+// Highlight Words Button
+$("#highlightWordsButton").bind("change", function (data) {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, {
       todo: "highlight",
@@ -312,7 +286,7 @@ $("#highlightButton").bind("change", function (data) {
     });
   });
   chrome.storage.sync.set({
-    ["highlightButton"]: $(data.target).is(":checked"),
+    ["highlightWordsButton"]: $(data.target).is(":checked"),
   });
 });
 
