@@ -1,17 +1,15 @@
-// Changing color of font
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  if (message.todo == "changeColor") {
-    if ($("#i4all-color-changer") == null) {
-      $(
-        "<style id='i4all-color-changer'>:not(a), :not(img)  { color: " +
-          message.clickedColor +
-          "! important; }</style>"
-      ).appendTo("head");
+  // Changing color of font
+  if (message.todo == "fontColor") {
+    if (message.checkedButton == 0) {
+      $("#i4all-font-color").remove();
     } else {
-      $("#i4all-color-changer").remove();
+      if ($("#i4all-font-color") != null) {
+        $("#i4all-font-color").remove();
+      }
       $(
-        "<style id='i4all-color-changer'>:not(a), :not(img)  { color: " +
-          message.clickedColor +
+        "<style id='i4all-font-color'>:not(a), :not(img)  { color: " +
+          message.fontColor +
           "! important; }</style>"
       ).appendTo("head");
     }

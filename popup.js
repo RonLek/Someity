@@ -1,5 +1,44 @@
 var assistant_start = 0;
 var assistant_enable_stored;
+
+// Building Font palette within popup.html [Keep this above popup load function]
+var colors = [
+  "#1FBC9C",
+  "#1CA085",
+  "#2ECC70",
+  "#27AF60",
+  "#3398DB",
+  "#2980B9",
+  "#A463BF",
+  "#3D556E",
+  "#222F3D",
+  "#F2C511",
+  "#F39C19",
+  "#E84A3C",
+  "#C0382B",
+  "#DDE6E8",
+  "#BDC3C8",
+];
+
+for (var i = 0; i < colors.length; i++) {
+  var input = document.createElement("input");
+  input.type = "radio";
+  input.name = "color";
+  input.id = "color-" + i;
+  input.value = colors[i];
+  if (i == 12) {
+    input.checked = true;
+  }
+  var label = document.createElement("label");
+  label.htmlFor = "color-" + i;
+  var span = document.createElement("span");
+  span.setAttribute("class", "color-" + i);
+  span.setAttribute("style", "background-color:" + colors[i]);
+  label.appendChild(span);
+  document.getElementsByClassName("color-picker")[0].appendChild(input);
+  document.getElementsByClassName("color-picker")[0].appendChild(label);
+}
+
 // On popup load function
 $(function () {
   chrome.storage.sync.get("clickedColor", function (stored) {
@@ -40,32 +79,51 @@ $(function () {
     $("#fontSizeSlider").val(stored.fontSizeSlider);
   });
   $("#assistant_start").click();
-  // Changing Color of font
-  // var color = $("#fontColor").val();
-  // $("#fontColor").on("change paste keyup", function () {
-  // 	color = $(this).val();
-  // });
-  // $("#btnChange").click(function () {
-  // 	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-  // 		chrome.tabs.sendMessage(tabs[0].id, {
-  // 			todo: "changeColor",
-  // 			clickedColor: color,
-  // 		});
-  // 	});
-  // 	chrome.storage.sync.set({ ["clickedColor"]: color });
-  // });
-  // var color = $("#fontColor").val();
-  // $("#fontColor").on("change paste keyup", function () {
-  // 	color = $(this).val();
-  // });
-  // $("#btnChange").click(function () {
-  // 	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-  // 		chrome.tabs.sendMessage(tabs[0].id, {
-  // 			todo: "changeColor",
-  // 			clickedColor: color,
-  // 		});
-  // 	});
-  // });
+
+  chrome.storage.sync.get("fontFamily", function (stored) {
+    $("#fontTypeDropDown").val(stored.fontFamily);
+  });
+
+  chrome.storage.sync.get("fontTypeButton", function (stored) {
+    $("#fontTypeButton").prop("checked", stored.fontTypeButton);
+    if (stored.fontTypeButton) {
+      document.getElementById("font-type-switch-header").textContent = "On";
+    } else {
+      document.getElementById("font-type-switch-header").textContent = "Off";
+    }
+  });
+
+  chrome.storage.sync.get("fontSizeButton", function (stored) {
+    $("#fontSizeButton").prop("checked", stored.fontSizeButton);
+
+    if (stored.fontSizeButton) {
+      document.getElementById("font-size-switch-header").textContent = "On";
+    } else {
+      document.getElementById("font-size-switch-header").textContent = "Off";
+    }
+  });
+
+  // Font Slider Setting
+  chrome.storage.sync.get("fontSizeSlider", function (stored) {
+    $("#fontSizeSlider_value").html(stored.fontSizeSlider);
+    $("#fontSizeSlider").val(stored.fontSizeSlider);
+  });
+
+  // Font Color Button Setting
+  chrome.storage.sync.get("fontColorButton", function (stored) {
+    $("#fontColorButton").prop("checked", stored.fontColorButton);
+
+    if (stored.fontColorButton) {
+      document.getElementById("font-color-switch-header").textContent = "On";
+    } else {
+      document.getElementById("font-color-switch-header").textContent = "Off";
+    }
+  });
+
+  // Font Color Palette Setting
+  chrome.storage.sync.get("fontColorId", function (stored) {
+    $("#" + stored.fontColorId).attr("checked", true);
+  });
 });
 
 // Font Type || Font Family button bind
@@ -164,6 +222,62 @@ $("#fontSizeButton").bind("change", function (data) {
   chrome.storage.sync.set({
     ["fontSizeButton"]: $(data.target).is(":checked"),
   });
+});
+
+//Font Color Button
+$("#fontColorButton").bind("change", function (data) {
+  var pickedColor = $("input[name=color]:checked");
+  if ($(data.target).is(":checked")) {
+    document.getElementById("font-color-switch-header").textContent = "On";
+    if (pickedColor.length > 0) {
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {
+          todo: "fontColor",
+          fontColor: pickedColor[0].value,
+          checkedButton: 1,
+        });
+      });
+    }
+  } else {
+    document.getElementById("font-color-switch-header").textContent = "Off";
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "fontColor",
+        checkedButton: 0,
+      });
+    });
+  }
+  chrome.storage.sync.set({
+    ["fontColor"]: pickedColor.length > 0 ? pickedColor[0].value : "#C0382B",
+  });
+  chrome.storage.sync.set({
+    ["fontColorId"]: pickedColor.length > 0 ? pickedColor[0].id : "color-12",
+  });
+  chrome.storage.sync.set({
+    ["fontColorButton"]: $(data.target).is(":checked"),
+  });
+});
+
+// Font Color Palette
+$("input[name=color]").bind("change", function (data) {
+  if ($("#fontColorButton").is(":checked")) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "fontColor",
+        fontColor: $(data.target).val(),
+        checkedButton: 1,
+      });
+    });
+  } else {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "fontColor",
+        checkedButton: 0,
+      });
+    });
+  }
+  chrome.storage.sync.set({ ["fontColor"]: $(data.target).val() });
+  chrome.storage.sync.set({ ["fontColorId"]: $(data.target).attr("id") });
 });
 
 // Speech Recognition
@@ -307,43 +421,6 @@ function sendResult(data) {
       });
     }
   }
-}
-
-// Font color - palette
-var colors = [
-  "#1FBC9C",
-  "#1CA085",
-  "#2ECC70",
-  "#27AF60",
-  "#3398DB",
-  "#2980B9",
-  "#A463BF",
-  "#3D556E",
-  "#222F3D",
-  "#F2C511",
-  "#F39C19",
-  "#E84A3C",
-  "#C0382B",
-  "#DDE6E8",
-  "#BDC3C8",
-];
-
-for (var i = 0; i < colors.length; i++) {
-  var input = document.createElement("input");
-  input.type = "radio";
-  input.name = "color";
-  input.id = "color-" + i;
-  if (i == 0) {
-    input.value = "color-" + i;
-  }
-  var label = document.createElement("label");
-  label.htmlFor = "color-" + i;
-  var span = document.createElement("span");
-  span.setAttribute("class", "color-" + i);
-  span.setAttribute("style", "background-color:" + colors[i]);
-  label.appendChild(span);
-  document.getElementsByClassName("color-picker")[0].appendChild(input);
-  document.getElementsByClassName("color-picker")[0].appendChild(label);
 }
 
 //
