@@ -15,6 +15,7 @@
       <h1>I4All</h1>
     </div>
 
+    <button class="activation-button" id="assistant_start">START</button>
     <!-- Font Type -->
     <div class="font-header">
       <img src="/images/font.png" />
@@ -102,7 +103,28 @@
         </div>
       </div>
     </div>
+    <!-- Font Size -->
+    <div class="font-header">
+      <img src="/images/font.png" />
+      <p>Font Size</p>
+    </div>
 
+    <div class="font-type-wrapper">
+      <div class="font-type-select-wrapper">
+        <p class="font-type-select-header">Font Size</p>
+        <form id="fontSize">
+          <input type="range" id="fontSizeSlider" min="1" max="100" value="50" />
+          <span style="color: white;" id="fontSizeSlider_value">50</span>
+        </form>
+      </div>
+      <div class="font-type-switch-wrapper">
+        <p id="font-size-switch-header" class="font-type-switch-header">Off</p>
+        <label class="switch">
+          <input type="checkbox" id="fontSizeButton" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
     <!-- <div>
       <input value="#3399FF80" id="fontColor" data-jscolor="{}" />
       <input type="submit" value="Change" id="btnChange" />

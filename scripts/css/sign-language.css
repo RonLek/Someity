@@ -2,7 +2,7 @@
 	font-family: Sign-Language;
 	font-style: normal;
 	font-weight: 700;
-	src: url("chrome-extension://bgfcegoaicoaioeabfkmpjpekpdkllml/scripts/css/fonts/Sign-Language.ttf");
+	src: url("chrome-extension://__MSG_@@extension_id__/scripts/css/fonts/Sign-Language.ttf");
 }
 
 p,
