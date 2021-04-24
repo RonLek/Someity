@@ -104,6 +104,12 @@ function magnifier() {
 
 var magnify = new magnifier();
 
+var images = document.getElementsByTagName("img");
+var imageSource = [];
+for (var i = 0; i < images.length; i++) {
+  imageSource.push(images[i].src || images[i].srcset);
+}
+
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   // Changing color of font
   if (message.todo == "fontColor") {
@@ -147,7 +153,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
   // Changing Font Size
   if (message.todo == "fontSize") {
-    console.log(message);
     if (message.checkedButton == 0) {
       $("#i4all-font-size").remove();
     } else {
@@ -169,6 +174,26 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       magnify.removeMagnifier("img");
     } else {
       magnify.magnifyImg("img", magnification, magnifierSize);
+    }
+  }
+
+  // Image Veil
+  if (message.todo == "imageVeil") {
+    if (message.checkedButton == 0) {
+      for (var i = 0; i < images.length; i++) {
+        images[i].src = imageSource[i];
+      }
+    } else {
+      for (var i = 0, l = images.length; i < l; i++) {
+        images[i].removeAttribute("srcset");
+        images[i].src =
+          "https://via.placeholder.com/" +
+          images[i].width +
+          "x" +
+          images[i].height +
+          "?text=" +
+          images[i].alt.replace(/ /g, "+");
+      }
     }
   }
 
@@ -225,19 +250,6 @@ function returingSelectedText() {
 
 document.onmouseup = returingSelectedText;
 document.onkeyup = returingSelectedText;
-
-// Focus Mode - Hides all images
-var images = document.getElementsByTagName("img");
-for (var i = 0, l = images.length; i < l; i++) {
-  images[i].removeAttribute("srcset");
-  images[i].src =
-    "https://via.placeholder.com/" +
-    images[i].width +
-    "x" +
-    images[i].height +
-    "?text=" +
-    images[i].alt.replace(/ /g, "+");
-}
 
 // TTS
 $("body").attr("id", "textToSelect");

@@ -19,8 +19,8 @@ chrome.runtime.onInstalled.addListener(function () {
   chrome.storage.sync.set({ ["fontColor"]: "#C0382B" });
   chrome.storage.sync.set({ ["fontColorId"]: "color-12" });
   chrome.storage.sync.set({ ["magnifyButton"]: false });
+  chrome.storage.sync.set({ ["imageVeilButton"]: false });
   chrome.storage.sync.set({ ["highlightWordsButton"]: false });
-
 });
 
 // chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -42,7 +42,8 @@ chrome.tabs.onActivated.addListener(function (activeInfo) {
       "fontColorButton",
       "fontColor",
       "magnifyButton",
-	  "highlightWordsButton"
+      "highlightWordsButton",
+      "imageVeilButton",
     ],
     function (stored) {
       if (stored.fontTypeButton) {
@@ -58,7 +59,7 @@ chrome.tabs.onActivated.addListener(function (activeInfo) {
         });
       }
 
-	  console.log("Stored = ", stored)
+      console.log("Stored = ", stored);
       if (stored.fontSizeButton) {
         chrome.tabs.sendMessage(activeInfo.tabId, {
           todo: "fontSize",
@@ -88,6 +89,11 @@ chrome.tabs.onActivated.addListener(function (activeInfo) {
       chrome.tabs.sendMessage(activeInfo.tabId, {
         todo: "magnify",
         checkedButton: stored.magnifyButton ? 1 : 0,
+      });
+
+      chrome.tabs.sendMessage(activeInfo.tabId, {
+        todo: "imageVeil",
+        checkedButton: stored.imageVeilButton ? 1 : 0,
       });
 
       chrome.tabs.sendMessage(activeInfo.tabId, {

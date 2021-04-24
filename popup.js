@@ -41,7 +41,6 @@ for (var i = 0; i < colors.length; i++) {
 
 // On popup load function
 $(function () {
-
   chrome.storage.sync.get("assistant_enable", function (stored) {
     assistant_enable_stored = stored.assistant_enable;
     console.log(assistant_enable_stored);
@@ -102,6 +101,11 @@ $(function () {
   // Magnify Button Setting
   chrome.storage.sync.get("magnifyButton", function (stored) {
     $("#magnifierButton").prop("checked", stored.magnifyButton);
+  });
+
+  // Image Veil Setting
+  chrome.storage.sync.get("imageVeilButton", function (stored) {
+    $("#imageVeilButton").prop("checked", stored.imageVeilButton);
   });
 
   // Highlight Words Setting
@@ -274,6 +278,19 @@ $("#magnifierButton").bind("change", function (data) {
   });
   chrome.storage.sync.set({
     ["magnifyButton"]: $(data.target).is(":checked"),
+  });
+});
+
+// Image Veil Button
+$("#imageVeilButton").bind("change", function (data) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, {
+      todo: "imageVeil",
+      checkedButton: $(data.target).is(":checked") ? 1 : 0,
+    });
+  });
+  chrome.storage.sync.set({
+    ["imageVeilButton"]: $(data.target).is(":checked"),
   });
 });
 
