@@ -296,3 +296,5 @@ input:checked + .slider:before {
 input[type="range"] {
 	width: 90%;
 }
+
+/* Visualizer */

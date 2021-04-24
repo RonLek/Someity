@@ -1,3 +1,5 @@
+var assistant_start = 0;
+var assistant_enable_stored;
 // On popup load function
 $(function () {
 	chrome.storage.sync.get("clickedColor", function (stored) {
@@ -6,6 +8,11 @@ $(function () {
 
 	chrome.storage.sync.get("fontFamily", function (stored) {
 		$("#fontTypeDropDown").val(stored.fontFamily);
+	});
+
+	chrome.storage.sync.get("assistant_enable", function (stored) {
+		assistant_enable_stored = stored.assistant_enable;
+		console.log(assistant_enable_stored);
 	});
 
 	chrome.storage.sync.get("fontTypeButton", function (stored) {
@@ -32,7 +39,7 @@ $(function () {
 		$("#fontSizeSlider_value").html(stored.fontSizeSlider);
 		$("#fontSizeSlider").val(stored.fontSizeSlider);
 	});
-
+	$("#assistant_start").click();
 	// Changing Color of font
 	// var color = $("#fontColor").val();
 	// $("#fontColor").on("change paste keyup", function () {
@@ -47,7 +54,6 @@ $(function () {
 	// 	});
 	// 	chrome.storage.sync.set({ ["clickedColor"]: color });
 	// });
-	// $("#assistant_start").click();
 	// var color = $("#fontColor").val();
 	// $("#fontColor").on("change paste keyup", function () {
 	// 	color = $(this).val();
@@ -163,7 +169,21 @@ $("#fontSizeButton").bind("change", function (data) {
 // Speech Recognition
 const startButton = document.getElementsByClassName("activation-button")[0];
 startButton.addEventListener("click", function () {
-	startTracking();
+	if (assistant_enable_stored) {
+		if (assistant_start) {
+			$(this).prop("src", "images/microphone-off.png");
+			assistant_start = 0;
+			isStopButtonClicked = true;
+			stopTracking();
+		} else {
+			$(this).prop("src", "images/microphone-on.png");
+			isStopButtonClicked = false;
+			assistant_start = 1;
+			startTracking();
+		}
+	} else {
+		$(this).prop("src", "images/microphone-disable.png");
+	}
 });
 
 var recognition,
@@ -189,7 +209,7 @@ const startRecog = () => {
 				interim_transcript += event.results[i][0].transcript;
 			}
 		}
-		// console.log(final_transcript);
+		console.log(final_transcript);
 		if (final_transcript != "" && final_transcript !== "undefined") {
 			sendResult(final_transcript.toLowerCase());
 		}
@@ -243,7 +263,7 @@ function sendResult(data) {
 			} else {
 				result = "https://www.google.com/search?q=" + temp;
 			}
-			port.postMessage({ action: "open " + result });
+			port.postMessage({ action: "open", result: result });
 			port.onMessage.addListener(function (msg) {
 				if (msg.response == "ok") {
 				}
@@ -253,7 +273,7 @@ function sendResult(data) {
 		var temp = data.slice(5);
 		if (temp != null && temp !== "undefined") {
 			result = "https://www.youtube.com/results?search_query=" + temp;
-			port.postMessage({ action: "play " + result });
+			port.postMessage({ action: "play", result: result });
 			port.onMessage.addListener(function (msg) {
 				if (msg.response == "ok") {
 				}
@@ -266,7 +286,7 @@ function sendResult(data) {
 				"https://translate.google.com/?sl=auto&tl=en&text=" +
 				temp +
 				"&op=translate";
-			port.postMessage({ action: "translate ", res: result });
+			port.postMessage({ action: "translate", result: result });
 			port.onMessage.addListener(function (msg) {
 				if (msg.response == "ok") {
 				}
@@ -274,14 +294,13 @@ function sendResult(data) {
 		}
 	} else if (data.includes("to")) {
 		var temp = data.split("to");
-		console.log(temp);
 		if (temp != null && temp !== "undefined") {
 			result =
 				"https://www.google.com/maps/dir/" +
 				temp[0].trim() +
 				"/" +
 				temp[1].trim();
-			port.postMessage({ action: "direction " + result });
+			port.postMessage({ action: "direction", result: result });
 			port.onMessage.addListener(function (msg) {
 				if (msg.response == "ok") {
 				}
@@ -325,3 +344,5 @@ for (var i = 0; i < colors.length; i++) {
 	document.getElementsByClassName("color-picker")[0].appendChild(input);
 	document.getElementsByClassName("color-picker")[0].appendChild(label);
 }
+
+//

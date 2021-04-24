@@ -190,3 +190,50 @@ function magnifier() {
 
 var magnify = new magnifier();
 magnify.magnifyImg("img", magnification, magnifierSize);
+
+// TTS
+$("body").attr("id", "textToSelect");
+$(document).ready(function () {
+	function tweetButtonClick() {
+		let selectedText = document.getSelection().toString();
+		/*window.open(
+		"https://twitter.com/intent/tweet?url=https://www.linkedin.com/in/harsha-vardhan-ch-245197bb/&text=" +
+		  selectedText
+	  );*/
+		console.log("This is your selected text: ", selectedText);
+	}
+
+	const textSelectionTooltipContainer = document.createElement("div");
+	textSelectionTooltipContainer.setAttribute(
+		"id",
+		"textSelectionTooltipContainer"
+	);
+	textSelectionTooltipContainer.innerHTML = `<button id="textShareTwitterBtn">TWEET</button>`;
+	const bodyElement = document.getElementsByTagName("BODY")[0];
+
+	$("body").on("click", "#textShareTwitterBtn", tweetButtonClick);
+
+	bodyElement.addEventListener("mouseup", function (e) {
+		var textu = document.getSelection().toString();
+		if (!textu.length) {
+			textSelectionTooltipContainer.remove();
+		}
+	});
+
+	document
+		.getElementById("textToSelect")
+		.addEventListener("mouseup", function (e) {
+			let textu = document.getSelection().toString();
+			let matchu = /\r|\n/.exec(textu);
+			if (textu.length && !matchu) {
+				let range = document.getSelection().getRangeAt(0);
+				rect = range.getBoundingClientRect();
+				scrollPosition = $(window).scrollTop();
+				containerTop = scrollPosition + rect.top - 50 + "px";
+				containerLeft = rect.left + rect.width / 2 - 50 + "px";
+				textSelectionTooltipContainer.style.transform =
+					"translate3d(" + containerLeft + "," + containerTop + "," + "0px)";
+				bodyElement.appendChild(textSelectionTooltipContainer);
+			}
+		});
+});
