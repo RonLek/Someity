@@ -112,7 +112,7 @@ body {
   align-items: center;
   padding: 10px;
   margin-left: 20px;
-  justify-self: center;
+  justify-content: center;
 }
 
 .font-type-wrapper {
