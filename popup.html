@@ -73,8 +73,7 @@
     <div class="font-type-wrapper">
       <div class="font-type-select-wrapper">
         <p class="font-type-select-header">Font Color</p>
-        <div class="color-picker">
-        </div>
+        <div class="color-picker"></div>
       </div>
       <div class="font-type-switch-wrapper">
         <p id="font-color-switch-header" class="font-type-switch-header">Off</p>
@@ -85,7 +84,7 @@
       </div>
     </div>
 
-    <!-- Focus Mode -->
+    <!-- Magnifier -->
     <div class="font-header">
       <img src="/images/magnifier.png" />
       <p>Magnifier</p>
@@ -98,12 +97,13 @@
         </div>
         <div>
           <label class="switch">
-            <input type="checkbox" id="fontTypeButton" />
+            <input type="checkbox" id="magnifierButton" />
             <span class="slider round"></span>
           </label>
         </div>
       </div>
     </div>
+
     <!-- Font Size -->
     <div class="font-header">
       <img src="/images/font.png" />
@@ -114,8 +114,14 @@
       <div class="font-type-select-wrapper">
         <p class="font-type-select-header">Font Size</p>
         <form id="fontSize">
-          <input type="range" id="fontSizeSlider" min="1" max="100" value="50" />
-          <span style="color: white;" id="fontSizeSlider_value">50</span>
+          <input
+            type="range"
+            id="fontSizeSlider"
+            min="1"
+            max="100"
+            value="50"
+          />
+          <span style="color: white" id="fontSizeSlider_value">50</span>
         </form>
       </div>
       <div class="font-type-switch-wrapper">

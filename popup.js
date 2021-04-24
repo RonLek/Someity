@@ -124,6 +124,11 @@ $(function () {
   chrome.storage.sync.get("fontColorId", function (stored) {
     $("#" + stored.fontColorId).attr("checked", true);
   });
+
+  // Magnify Button Setting
+  chrome.storage.sync.get("magnifyButton", function (stored) {
+    $("#magnifierButton").prop("checked", stored.magnifyButton);
+  });
 });
 
 // Font Type || Font Family button bind
@@ -278,6 +283,19 @@ $("input[name=color]").bind("change", function (data) {
   }
   chrome.storage.sync.set({ ["fontColor"]: $(data.target).val() });
   chrome.storage.sync.set({ ["fontColorId"]: $(data.target).attr("id") });
+});
+
+// Magnifier Button
+$("#magnifierButton").bind("change", function (data) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, {
+      todo: "magnify",
+      checkedButton: $(data.target).is(":checked") ? 1 : 0,
+    });
+  });
+  chrome.storage.sync.set({
+    ["magnifyButton"]: $(data.target).is(":checked"),
+  });
 });
 
 // Speech Recognition

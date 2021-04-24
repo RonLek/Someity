@@ -1,117 +1,4 @@
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  // Changing color of font
-  if (message.todo == "fontColor") {
-    if (message.checkedButton == 0) {
-      $("#i4all-font-color").remove();
-    } else {
-      if ($("#i4all-font-color") != null) {
-        $("#i4all-font-color").remove();
-      }
-      $(
-        "<style id='i4all-font-color'>:not(a), :not(img)  { color: " +
-          message.fontColor +
-          "! important; }</style>"
-      ).appendTo("head");
-    }
-  }
-  if (message.todo == "fontFamily") {
-    if (message.checkedButton == 0) {
-      $("#i4all-font-family").remove();
-    } else {
-      if ($("#i4all-font-family") != null) {
-        $("#i4all-font-family").remove();
-      }
-      if (message.fontFamily == "sign-language") {
-        $(
-          "<link rel='stylesheet' type='text/css' id='i4all-font-family' href='chrome-extension://" +
-            chrome.runtime.id +
-            "/scripts/css/sign-language.css'>"
-        ).appendTo("head");
-      } else {
-        $(
-          "<style id='i4all-font-family'> p,a,h1,h2,h4,h3,h5,h6,input,ul,span,strong,th,td,ul,li,ol,button  { font-family: " +
-            message.fontFamily +
-            "!important; }</style>"
-        ).appendTo("head");
-      }
-    }
-  }
-  if (message.todo == "fontSize") {
-    console.log(message);
-    if (message.checkedButton == 0) {
-      $("#i4all-font-size").remove();
-    } else {
-      if ($("#i4all-font-size") != null) {
-        $("#i4all-font-size").remove();
-      }
-      $(
-        "<style id='i4all-font-size'> p,a,h1,h2,h4,h3,h5,h6,input,ul,span,strong,th,td,ul,li,ol,button  { font-size: " +
-          message.fontSize.toString() +
-          "px" +
-          "!important; }</style>"
-      ).appendTo("head");
-    }
-  }
-});
-
-// Getting highlighted Text
-function getSelectedText() {
-  var text = "";
-  if (typeof window.getSelection != "undefined") {
-    text = window.getSelection().toString();
-  } else if (
-    typeof document.selection != "undefined" &&
-    document.selection.type == "Text"
-  ) {
-    text = document.selection.createRange().text;
-  }
-  return text;
-}
-
-function returingSelectedText() {
-  var selectedText = getSelectedText();
-  if (selectedText) {
-    // chrome.runtime.sendMessage(
-    //   {
-    //     todo: "textSelected",
-    //     textSelected: selectedText,
-    //   },
-    //   function (response) {
-    //     console.log(response);
-    //   }
-    // );
-  }
-  // if (selectedText) {
-  // 	alert("Got selected text " + selectedText);
-  // }
-}
-
-document.onmouseup = returingSelectedText;
-document.onkeyup = returingSelectedText;
-
-// Focus Mode - Hides all images
-var images = document.getElementsByTagName("img");
-for (var i = 0, l = images.length; i < l; i++) {
-  images[i].removeAttribute("srcset");
-  images[i].src =
-    "https://via.placeholder.com/" +
-    images[i].width +
-    "x" +
-    images[i].height +
-    "?text=" +
-    images[i].alt.replace(/ /g, "+");
-}
-
-// Focus Mode - Highlight Paragraph Words on Hover
-$(document).ready(function () {
-  console.log("Within ready");
-  var paragraphs = document.getElementsByTagName("p");
-  for (var i = 0; i < paragraphs.length; i++) {
-    paragraphs[i].classList.add("word_split");
-  }
-  $(".word_split").lettering("words");
-});
-
+// [Keep magnifier vars and function before adding chrome message listener]
 /*Size is  set in pixels... supports being written as: '250px' */
 var magnifierSize = 100;
 
@@ -120,6 +7,8 @@ var magnification = 3;
 
 function magnifier() {
   this.magnifyImg = function (ptr, magnification, magnifierSize) {
+    $("body").prepend('<div class="magnify"></div>');
+
     var $pointer;
     if (typeof ptr == "string") {
       $pointer = $(ptr);
@@ -189,15 +78,158 @@ function magnifier() {
     );
   };
 
-  this.init = function () {
-    $("body").prepend('<div class="magnify"></div>');
+  this.removeMagnifier = function (ptr) {
+    var $pointer;
+    if (typeof ptr == "string") {
+      $pointer = $(ptr);
+    } else if (typeof ptr == "object") {
+      $pointer = ptr;
+    }
+
+    if (!$pointer.is("img")) {
+      //   alert('Object must be image.');
+      return false;
+    }
+
+    $pointer.hover(function () {
+      $(this).css("cursor", "default");
+    });
+    $(".magnify").remove();
   };
+
+  this.init = function () {};
 
   return this.init();
 }
 
 var magnify = new magnifier();
-magnify.magnifyImg("img", magnification, magnifierSize);
+
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+  // Changing color of font
+  if (message.todo == "fontColor") {
+    if (message.checkedButton == 0) {
+      $("#i4all-font-color").remove();
+    } else {
+      if ($("#i4all-font-color") != null) {
+        $("#i4all-font-color").remove();
+      }
+      $(
+        "<style id='i4all-font-color'>:not(a), :not(img)  { color: " +
+          message.fontColor +
+          "! important; }</style>"
+      ).appendTo("head");
+    }
+  }
+
+  // Changing Font Family
+  if (message.todo == "fontFamily") {
+    if (message.checkedButton == 0) {
+      $("#i4all-font-family").remove();
+    } else {
+      if ($("#i4all-font-family") != null) {
+        $("#i4all-font-family").remove();
+      }
+      if (message.fontFamily == "sign-language") {
+        $(
+          "<link rel='stylesheet' type='text/css' id='i4all-font-family' href='chrome-extension://" +
+            chrome.runtime.id +
+            "/scripts/css/sign-language.css'>"
+        ).appendTo("head");
+      } else {
+        $(
+          "<style id='i4all-font-family'> p,a,h1,h2,h4,h3,h5,h6,input,ul,span,strong,th,td,ul,li,ol,button  { font-family: " +
+            message.fontFamily +
+            "!important; }</style>"
+        ).appendTo("head");
+      }
+    }
+  }
+
+  // Changing Font Size
+  if (message.todo == "fontSize") {
+    console.log(message);
+    if (message.checkedButton == 0) {
+      $("#i4all-font-size").remove();
+    } else {
+      if ($("#i4all-font-size") != null) {
+        $("#i4all-font-size").remove();
+      }
+      $(
+        "<style id='i4all-font-size'> p,a,h1,h2,h4,h3,h5,h6,input,ul,span,strong,th,td,ul,li,ol,button  { font-size: " +
+          message.fontSize.toString() +
+          "px" +
+          "!important; }</style>"
+      ).appendTo("head");
+    }
+  }
+
+  // Magnify Image Feature
+  if (message.todo == "magnify") {
+    if (message.checkedButton == 0) {
+      magnify.removeMagnifier("img");
+    } else {
+      magnify.magnifyImg("img", magnification, magnifierSize);
+    }
+  }
+});
+
+// Getting highlighted Text
+function getSelectedText() {
+  var text = "";
+  if (typeof window.getSelection != "undefined") {
+    text = window.getSelection().toString();
+  } else if (
+    typeof document.selection != "undefined" &&
+    document.selection.type == "Text"
+  ) {
+    text = document.selection.createRange().text;
+  }
+  return text;
+}
+
+function returingSelectedText() {
+  var selectedText = getSelectedText();
+  if (selectedText) {
+    // chrome.runtime.sendMessage(
+    //   {
+    //     todo: "textSelected",
+    //     textSelected: selectedText,
+    //   },
+    //   function (response) {
+    //     console.log(response);
+    //   }
+    // );
+  }
+  // if (selectedText) {
+  // 	alert("Got selected text " + selectedText);
+  // }
+}
+
+document.onmouseup = returingSelectedText;
+document.onkeyup = returingSelectedText;
+
+// Focus Mode - Hides all images
+var images = document.getElementsByTagName("img");
+for (var i = 0, l = images.length; i < l; i++) {
+  images[i].removeAttribute("srcset");
+  images[i].src =
+    "https://via.placeholder.com/" +
+    images[i].width +
+    "x" +
+    images[i].height +
+    "?text=" +
+    images[i].alt.replace(/ /g, "+");
+}
+
+// Focus Mode - Highlight Paragraph Words on Hover
+$(document).ready(function () {
+  console.log("Within ready");
+  var paragraphs = document.getElementsByTagName("p");
+  for (var i = 0; i < paragraphs.length; i++) {
+    paragraphs[i].classList.add("word_split");
+  }
+  $(".word_split").lettering("words");
+});
 
 // TTS
 $("body").attr("id", "textToSelect");
