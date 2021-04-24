@@ -14,7 +14,8 @@
 		"tts",
 		"background",
 		"privacy",
-		"ttsEngine"
+		"ttsEngine",
+		"contextMenus"
 	],
 	"action": {
 		"default_popup": "popup.html",
@@ -25,7 +26,11 @@
 			"matches": ["<all_urls>"],
 
 			"css": ["contentCss.css"],
-			"js": ["jquery-3.1.0.min.js", "jquery.lettering-0.6.1.min.js", "contentScript.js"]
+			"js": [
+				"jquery-3.1.0.min.js",
+				"jquery.lettering-0.6.1.min.js",
+				"contentScript.js"
+			]
 		}
 	],
 	"options_page": "options.html",
