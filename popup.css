@@ -230,6 +230,22 @@ label span {
   transition: transform 0.2s ease-in-out;
 }
 
+.actions-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.actions {
+  border-radius: 50%;
+  background-color: #202020;
+  display: flex;
+  padding: 10px;
+  width: 100px;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+}
+
 /* The switch - the box around the slider */
 .switch {
   position: relative;
