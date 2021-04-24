@@ -58,8 +58,8 @@ chrome.runtime.onConnect.addListener(function (port) {
 	var temp;
 	console.assert(port.name == "performAction");
 	port.onMessage.addListener(function (msg) {
-		if (msg.action.includes("open")) {
-			temp = msg.action.slice(5);
+		if (msg.action == "open") {
+			temp = msg.result;
 			if (temp != null && temp !== "undefined") {
 				console.log(temp);
 				chrome.tabs.create({
@@ -67,8 +67,8 @@ chrome.runtime.onConnect.addListener(function (port) {
 				});
 			}
 			port.postMessage({ response: "ok" });
-		} else if (msg.action.includes("play")) {
-			temp = msg.action.slice(5);
+		} else if (msg.action == "play") {
+			temp = msg.result;
 
 			if (temp != null && temp !== "undefined") {
 				console.log(temp);
@@ -77,9 +77,8 @@ chrome.runtime.onConnect.addListener(function (port) {
 				});
 			}
 			port.postMessage({ response: "ok" });
-		} else if (msg.action.includes("translate")) {
-			console.log(msg);
-			temp = msg.res;
+		} else if (msg.action == "translate") {
+			temp = msg.result;
 			if (temp != null && temp !== "undefined") {
 				console.log(temp);
 				chrome.tabs.create({
@@ -87,8 +86,8 @@ chrome.runtime.onConnect.addListener(function (port) {
 				});
 			}
 			port.postMessage({ response: "ok" });
-		} else if (msg.action.includes("direction")) {
-			temp = msg.action.slice(10);
+		} else if (msg.action == "direction") {
+			temp = msg.result;
 			if (temp != null && temp !== "undefined") {
 				console.log(temp);
 				chrome.tabs.create({
