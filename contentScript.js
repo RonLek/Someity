@@ -171,6 +171,24 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       magnify.magnifyImg("img", magnification, magnifierSize);
     }
   }
+
+  // Highlight Words
+  if (message.todo == "highlight") {
+    if (message.checkedButton == 0) {
+      var paragraphs = document.getElementsByTagName("p");
+      for (var i = 0; i < paragraphs.length; i++) {
+        paragraphs[i].classList.remove("word_split");
+      }
+    } else {
+      $(document).ready(function () {
+        var paragraphs = document.getElementsByTagName("p");
+        for (var i = 0; i < paragraphs.length; i++) {
+          paragraphs[i].classList.add("word_split");
+        }
+        $(".word_split").lettering("words");
+      });
+    }
+  }
 });
 
 // Getting highlighted Text
@@ -220,16 +238,6 @@ for (var i = 0, l = images.length; i < l; i++) {
     "?text=" +
     images[i].alt.replace(/ /g, "+");
 }
-
-// Focus Mode - Highlight Paragraph Words on Hover
-$(document).ready(function () {
-  console.log("Within ready");
-  var paragraphs = document.getElementsByTagName("p");
-  for (var i = 0; i < paragraphs.length; i++) {
-    paragraphs[i].classList.add("word_split");
-  }
-  $(".word_split").lettering("words");
-});
 
 // TTS
 $("body").attr("id", "textToSelect");

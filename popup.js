@@ -129,6 +129,11 @@ $(function () {
   chrome.storage.sync.get("magnifyButton", function (stored) {
     $("#magnifierButton").prop("checked", stored.magnifyButton);
   });
+
+  // Highlight Words Setting
+  chrome.storage.sync.get("highlightButton", function (stored) {
+    $("#highlightButton").prop("checked", stored.highlightButton);
+  });
 });
 
 // Font Type || Font Family button bind
@@ -295,6 +300,19 @@ $("#magnifierButton").bind("change", function (data) {
   });
   chrome.storage.sync.set({
     ["magnifyButton"]: $(data.target).is(":checked"),
+  });
+});
+
+// Highlight Button
+$("#highlightButton").bind("change", function (data) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, {
+      todo: "highlight",
+      checkedButton: $(data.target).is(":checked") ? 1 : 0,
+    });
+  });
+  chrome.storage.sync.set({
+    ["highlightButton"]: $(data.target).is(":checked"),
   });
 });
 
