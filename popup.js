@@ -16,6 +16,7 @@ $(function () {
 
 $("#fontTypeButton").bind("change", function () {
 	if ($(this).is(":checked")) {
+		document.getElementById("font-type-switch-header").textContent="On";
 		chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 			chrome.tabs.sendMessage(tabs[0].id, {
 				todo: "fontFamily",
@@ -24,6 +25,7 @@ $("#fontTypeButton").bind("change", function () {
 			});
 		});
 	} else {
+		document.getElementById("font-type-switch-header").textContent="Off";
 		chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 			chrome.tabs.sendMessage(tabs[0].id, {
 				todo: "fontFamily",
