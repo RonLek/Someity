@@ -35,6 +35,7 @@ $("#fontTypeButton").bind("change", function () {
   }
 });
 
+// Font color - palette
 var colors = [
   "#1FBC9C",
   "#1CA085",
