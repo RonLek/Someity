@@ -39,6 +39,25 @@ for (var i = 0; i < colors.length; i++) {
   document.getElementsByClassName("color-picker")[0].appendChild(label);
 }
 
+for (var i = 0; i < colors.length; i++) {
+  var input = document.createElement("input");
+  input.type = "radio";
+  input.name = "ts-color";
+  input.id = "ts-color-" + i;
+  input.value = colors[i];
+  if (i == 12) {
+    input.checked = true;
+  }
+  var label = document.createElement("label");
+  label.htmlFor = "ts-color-" + i;
+  var span = document.createElement("span");
+  span.setAttribute("class", "color-" + i);
+  span.setAttribute("style", "background-color:" + colors[i]);
+  label.appendChild(span);
+  document.getElementsByClassName("ts-color-picker")[0].appendChild(input);
+  document.getElementsByClassName("ts-color-picker")[0].appendChild(label);
+}
+
 // On popup load function
 $(function () {
   chrome.storage.sync.get("assistant_enable", function (stored) {
@@ -111,6 +130,16 @@ $(function () {
   // Highlight Words Setting
   chrome.storage.sync.get("highlightWordsButton", function (stored) {
     $("#highlightWordsButton").prop("checked", stored.highlightWordsButton);
+  });
+
+  // Emphasize Links Setting
+  chrome.storage.sync.get("emphasizeLinksButton", function (stored) {
+    $("#emphasizeLinksButton").prop("checked", stored.emphasizeLinksButton);
+  });
+
+  // Text Stroke Setting
+  chrome.storage.sync.get("textStrokeButton", function (stored) {
+    $("#textStrokeButton").prop("checked", stored.textStrokeButton);
   });
 });
 
@@ -305,6 +334,73 @@ $("#highlightWordsButton").bind("change", function (data) {
   chrome.storage.sync.set({
     ["highlightWordsButton"]: $(data.target).is(":checked"),
   });
+});
+
+// Emphasize Links Button
+$("#emphasizeLinksButton").bind("change", function (data) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, {
+      todo: "emphasizeLinks",
+      checkedButton: $(data.target).is(":checked") ? 1 : 0,
+    });
+  });
+  chrome.storage.sync.set({
+    ["emphasizeLinksButton"]: $(data.target).is(":checked"),
+  });
+});
+
+//Text Stroke Button
+$("#textStrokeButton").bind("change", function (data) {
+  var pickedColor = $("input[name=ts-color]:checked");
+  if ($(data.target).is(":checked")) {
+    if (pickedColor.length > 0) {
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {
+          todo: "textStroke",
+          textStrokeColor: pickedColor[0].value,
+          checkedButton: 1,
+        });
+      });
+    }
+  } else {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "textStroke",
+        checkedButton: 0,
+      });
+    });
+  }
+  chrome.storage.sync.set({
+    ["textStrokeColor"]: pickedColor.length > 0 ? pickedColor[0].value : "#C0382B",
+  });
+  chrome.storage.sync.set({
+    ["textStrokeColorId"]: pickedColor.length > 0 ? pickedColor[0].id : "color-12",
+  });
+  chrome.storage.sync.set({
+    ["textStrokeButton"]: $(data.target).is(":checked"),
+  });
+});
+
+// Text Stroke Color Palette
+$("input[name=ts-color]").bind("change", function (data) {
+  if ($("#textStrokeButton").is(":checked")) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "textStroke",
+        textStrokeColor: $(data.target).val(),
+        checkedButton: 1,
+      });
+    });
+  } else {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "textStroke",
+        checkedButton: 0,
+      });
+    });
+  }
+  chrome.storage.sync.set({ ["textStrokeColor"]: $(data.target).val() });
+  chrome.storage.sync.set({ ["textStrokeColorId"]: $(data.target).attr("id") });
 });
 
 // Speech Recognition

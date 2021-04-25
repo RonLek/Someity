@@ -1,6 +1,6 @@
 {
-	"name": "I4All",
-	"description": "Making Web Accessible 4 All",
+	"name": "Someity",
+	"description": "Making the Web Accessible for All",
 	"version": "1.0",
 	"manifest_version": 3,
 	"background": {

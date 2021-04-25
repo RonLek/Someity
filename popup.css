@@ -112,7 +112,7 @@ body {
   align-items: center;
   padding: 10px;
   margin-left: 20px;
-  justify-self: center;
+  justify-content: center;
 }
 
 .font-type-wrapper {
@@ -244,6 +244,31 @@ label span {
   height: 100px;
   justify-content: center;
   align-items: center;
+}
+
+.color-blindness {
+  border-radius: 10px;
+  background-color: #202020;
+  display: flex;
+  flex-direction: row;
+  margin-left: 10px;
+  align-items: center;
+  padding: 20px;
+  justify-content: space-between;
+}
+
+.color-blindness p {
+  margin: 0px;
+  font-size: 20px;
+  margin-right: 30px;
+  color: white;
+  letter-spacing: 2px;
+}
+
+.color-blindness img {
+  height: 25px;
+  width: 25px;
+  margin-right: 20px;
 }
 
 /* The switch - the box around the slider */

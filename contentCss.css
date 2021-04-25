@@ -42,3 +42,9 @@
   padding: 5px;
   color: white;
 }
+
+.emphasize {
+    text-decoration: none;
+    background: linear-gradient(to right, #bcbcbc 25%,#ffcd02 25%, #ffcd02 50%, #e84f47 50%, #e84f47 75%, #65c1ac 75%)  left bottom no-repeat; 
+    background-size: 100% 2px; 
+}
