@@ -335,7 +335,7 @@ $(document).ready(function () {
         containerLeft = rect.left + rect.width / 2 - 50 + "px";
         textSelectionTooltipContainer.style.transform =
           "translate3d(" + containerLeft + "," + containerTop + "," + "0px)";
-        bodyElement.appendChild(textSelectionTooltipContainer);
+        // bodyElement.appendChild(textSelectionTooltipContainer);
       }
     });
 });
