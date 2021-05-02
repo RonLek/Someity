@@ -4,20 +4,34 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>I4ALL</title>
+    <title>SoMeity</title>
     <script src="jquery-3.1.0.min.js"></script>
-    <script src="jscolor.min.js"></script>
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
     <div class="header">
       <img src="/icon.png" />
-      <h1>I4All</h1>
+      <h1>Someity</h1>
     </div>
-    <div style="text-align:center">
-      <input   type="image" id="assistant_start"  class="activation-button" id="saveform" src="images/microphone-off.png" alt="Submit Form" />
+
+    <!-- Actions -->
+    <div class="font-header">
+      <img src="/images/actions.png" />
+      <p>Actions</p>
     </div>
-  
+
+    <div class="actions-wrapper">
+      <div class="actions">
+        <input
+        type="image"
+        id="assistant_start"
+        class="activation-button"
+        src="images/microphone-off.png"
+        alt="Submit Form"
+      />
+      </div>
+    </div>
+
     <!-- Font Type -->
     <div class="font-header">
       <img src="/images/font.png" />
@@ -54,12 +68,27 @@
     <div class="focus-mode-wrapper">
       <div class="focus-mode">
         <div class="focus-mode-header">
-          <p>Focus Mode</p>
+          <p>Image Veil</p>
           <p style="font-size: 15px">Enable to focus on text better.</p>
         </div>
         <div>
           <label class="switch">
-            <input type="checkbox" id="fontTypeButton" />
+            <input type="checkbox" id="imageVeilButton" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="focus-mode-wrapper">
+      <div class="focus-mode">
+        <div class="focus-mode-header">
+          <p>Highlight Words</p>
+          <p style="font-size: 15px">Highlight words as you read.</p>
+        </div>
+        <div>
+          <label class="switch">
+            <input type="checkbox" id="highlightWordsButton" />
             <span class="slider round"></span>
           </label>
         </div>
@@ -74,19 +103,18 @@
     <div class="font-type-wrapper">
       <div class="font-type-select-wrapper">
         <p class="font-type-select-header">Font Color</p>
-        <div class="color-picker">
-        </div>
+        <div class="color-picker"></div>
       </div>
       <div class="font-type-switch-wrapper">
-        <p id="font-type-switch-header" class="font-type-switch-header">Off</p>
+        <p id="font-color-switch-header" class="font-type-switch-header">Off</p>
         <label class="switch">
-          <input type="checkbox" id="fontTypeButton" />
+          <input type="checkbox" id="fontColorButton" />
           <span class="slider round"></span>
         </label>
       </div>
     </div>
 
-    <!-- Focus Mode -->
+    <!-- Magnifier -->
     <div class="font-header">
       <img src="/images/magnifier.png" />
       <p>Magnifier</p>
@@ -99,12 +127,13 @@
         </div>
         <div>
           <label class="switch">
-            <input type="checkbox" id="fontTypeButton" />
+            <input type="checkbox" id="magnifierButton" />
             <span class="slider round"></span>
           </label>
         </div>
       </div>
     </div>
+
     <!-- Font Size -->
     <div class="font-header">
       <img src="/images/font.png" />
@@ -115,8 +144,14 @@
       <div class="font-type-select-wrapper">
         <p class="font-type-select-header">Font Size</p>
         <form id="fontSize">
-          <input type="range" id="fontSizeSlider" min="1" max="100" value="50" />
-          <span style="color: white;" id="fontSizeSlider_value">50</span>
+          <input
+            type="range"
+            id="fontSizeSlider"
+            min="1"
+            max="100"
+            value="50"
+          />
+          <span style="color: white" id="fontSizeSlider_value">50</span>
         </form>
       </div>
       <div class="font-type-switch-wrapper">
@@ -127,10 +162,48 @@
         </label>
       </div>
     </div>
-    <!-- <div>
-      <input value="#3399FF80" id="fontColor" data-jscolor="{}" />
-      <input type="submit" value="Change" id="btnChange" />
-    </div> -->
+
+    <!-- Color Blindness -->
+    <div class="font-header">
+      <img src="/images/colorblind.png" />
+      <p>Color Blind</p>
+    </div>
+
+    <div class="focus-mode-wrapper">
+      <div class="color-blindness">
+        <div class="focus-mode-header">
+          <p>Emphasize Links</p>
+        </div>
+        <div>
+          <label class="switch">
+            <input type="checkbox" id="emphasizeLinksButton" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="color-blindness">
+        <div class="focus-mode-header">
+          <p>Text Stroke</p>
+        </div>
+        <div>
+          <label class="switch">
+            <input type="checkbox" id="textStrokeButton" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="font-type-wrapper">
+      <div class="font-type-select-wrapper">
+        <p class="font-type-select-header">Text Stroke Color</p>
+        <div class="ts-color-picker"></div>
+      </div>
+      </div>
+    </div>
+
+
   </body>
   <script src="popup.js"></script>
 </html>

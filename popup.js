@@ -55,6 +55,8 @@ for (var i = 0; i < colors.length; i++) {
 	label.appendChild(span);
 	document.getElementsByClassName("ts-color-picker")[0].appendChild(input);
 	document.getElementsByClassName("ts-color-picker")[0].appendChild(label);
+
+
 }
 
 // On popup load function
@@ -135,104 +137,267 @@ $(function () {
 	chrome.storage.sync.get("textStrokeButton", function (stored) {
 		$("#textStrokeButton").prop("checked", stored.textStrokeButton);
 	});
+
 });
 
 // Font Type || Font Family button bind
 $("#fontTypeButton").bind("change", function () {
-	if ($(this).is(":checked")) {
-		console.log($("#fontTypeDropDown").val());
-		document.getElementById("font-type-switch-header").textContent = "On";
-		chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {
-				todo: "fontFamily",
-				fontFamily: $("#fontTypeDropDown").val(),
-				checkedButton: 1,
-			});
-		});
-	} else {
-		document.getElementById("font-type-switch-header").textContent = "Off";
-		chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {
-				todo: "fontFamily",
-				checkedButton: 0,
-			});
-		});
-	}
-	chrome.storage.sync.set({ ["fontFamily"]: $("#fontTypeDropDown").val() });
-	chrome.storage.sync.set({ ["fontTypeButton"]: $(this).is(":checked") });
+  if ($(this).is(":checked")) {
+    console.log($("#fontTypeDropDown").val());
+    document.getElementById("font-type-switch-header").textContent = "On";
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "fontFamily",
+        fontFamily: $("#fontTypeDropDown").val(),
+        checkedButton: 1,
+      });
+    });
+  } else {
+    document.getElementById("font-type-switch-header").textContent = "Off";
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "fontFamily",
+        checkedButton: 0,
+      });
+    });
+  }
+  chrome.storage.sync.set({ ["fontFamily"]: $("#fontTypeDropDown").val() });
+  chrome.storage.sync.set({ ["fontTypeButton"]: $(this).is(":checked") });
 });
 
 // Font Type || Font Family drop down bind
 $("#fontTypeDropDown").change(function (data) {
-	if ($("#fontTypeButton").is(":checked")) {
-		console.log($(data.target).val());
-		chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {
-				todo: "fontFamily",
-				fontFamily: $(data.target).val(),
-				checkedButton: 1,
-			});
-		});
-	} else {
-		chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {
-				todo: "fontFamily",
-				checkedButton: 0,
-			});
-		});
-	}
-	chrome.storage.sync.set({ ["fontFamily"]: $(data.target).val() });
-	// chrome.storage.sync.set({
-	// 	["fontTypeButton"]: $("#fontTypeButton").is(":checked"),
-	// });
+  if ($("#fontTypeButton").is(":checked")) {
+    console.log($(data.target).val());
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "fontFamily",
+        fontFamily: $(data.target).val(),
+        checkedButton: 1,
+      });
+    });
+  } else {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "fontFamily",
+        checkedButton: 0,
+      });
+    });
+  }
+  chrome.storage.sync.set({ ["fontFamily"]: $(data.target).val() });
+  // chrome.storage.sync.set({
+  // 	["fontTypeButton"]: $("#fontTypeButton").is(":checked"),
+  // });
 });
 
 //Font Size Slider
 $(document).on("input", "#fontSizeSlider", function (data) {
-	$("#fontSizeSlider_value").html($(data.target).val());
-	if ($("#fontSizeButton").is(":checked")) {
-		chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {
-				todo: "fontSize",
-				fontSize: $(data.target).val(),
-				checkedButton: 1,
-			});
-		});
-	} else {
-		chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {
-				todo: "fontSize",
-				checkedButton: 0,
-			});
-		});
-	}
-	chrome.storage.sync.set({ ["fontSizeSlider"]: $(data.target).val() });
+  $("#fontSizeSlider_value").html($(data.target).val());
+  if ($("#fontSizeButton").is(":checked")) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "fontSize",
+        fontSize: $(data.target).val(),
+        checkedButton: 1,
+      });
+    });
+  } else {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "fontSize",
+        checkedButton: 0,
+      });
+    });
+  }
+  chrome.storage.sync.set({ ["fontSizeSlider"]: $(data.target).val() });
 });
 
 //Font Size Slider Button
 $("#fontSizeButton").bind("change", function (data) {
-	if ($(data.target).is(":checked")) {
-		document.getElementById("font-size-switch-header").textContent = "On";
-		chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {
-				todo: "fontSize",
-				fontSize: $("#fontSizeSlider").val(),
-				checkedButton: 1,
-			});
-		});
-	} else {
-		document.getElementById("font-size-switch-header").textContent = "Off";
-		chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {
-				todo: "fontSize",
-				checkedButton: 0,
-			});
-		});
-	}
-	chrome.storage.sync.set({ ["fontSizeSlider"]: $("#fontSizeSlider").val() });
-	chrome.storage.sync.set({
-		["fontSizeButton"]: $(data.target).is(":checked"),
-	});
+  if ($(data.target).is(":checked")) {
+    document.getElementById("font-size-switch-header").textContent = "On";
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "fontSize",
+        fontSize: $("#fontSizeSlider").val(),
+        checkedButton: 1,
+      });
+    });
+  } else {
+    document.getElementById("font-size-switch-header").textContent = "Off";
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "fontSize",
+        checkedButton: 0,
+      });
+    });
+  }
+  chrome.storage.sync.set({ ["fontSizeSlider"]: $("#fontSizeSlider").val() });
+  chrome.storage.sync.set({
+    ["fontSizeButton"]: $(data.target).is(":checked"),
+  });
+});
+
+//Font Color Button
+$("#fontColorButton").bind("change", function (data) {
+  var pickedColor = $("input[name=color]:checked");
+  if ($(data.target).is(":checked")) {
+    document.getElementById("font-color-switch-header").textContent = "On";
+    if (pickedColor.length > 0) {
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {
+          todo: "fontColor",
+          fontColor: pickedColor[0].value,
+          checkedButton: 1,
+        });
+      });
+    }
+  } else {
+    document.getElementById("font-color-switch-header").textContent = "Off";
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "fontColor",
+        checkedButton: 0,
+      });
+    });
+  }
+  chrome.storage.sync.set({
+    ["fontColor"]: pickedColor.length > 0 ? pickedColor[0].value : "#C0382B",
+  });
+  chrome.storage.sync.set({
+    ["fontColorId"]: pickedColor.length > 0 ? pickedColor[0].id : "color-12",
+  });
+  chrome.storage.sync.set({
+    ["fontColorButton"]: $(data.target).is(":checked"),
+  });
+});
+
+// Font Color Palette
+$("input[name=color]").bind("change", function (data) {
+  if ($("#fontColorButton").is(":checked")) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "fontColor",
+        fontColor: $(data.target).val(),
+        checkedButton: 1,
+      });
+    });
+  } else {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "fontColor",
+        checkedButton: 0,
+      });
+    });
+  }
+  chrome.storage.sync.set({ ["fontColor"]: $(data.target).val() });
+  chrome.storage.sync.set({ ["fontColorId"]: $(data.target).attr("id") });
+});
+
+// Magnifier Button
+$("#magnifierButton").bind("change", function (data) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, {
+      todo: "magnify",
+      checkedButton: $(data.target).is(":checked") ? 1 : 0,
+    });
+  });
+  chrome.storage.sync.set({
+    ["magnifyButton"]: $(data.target).is(":checked"),
+  });
+});
+
+// Image Veil Button
+$("#imageVeilButton").bind("change", function (data) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, {
+      todo: "imageVeil",
+      checkedButton: $(data.target).is(":checked") ? 1 : 0,
+    });
+  });
+  chrome.storage.sync.set({
+    ["imageVeilButton"]: $(data.target).is(":checked"),
+  });
+});
+
+// Highlight Words Button
+$("#highlightWordsButton").bind("change", function (data) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, {
+      todo: "highlight",
+      checkedButton: $(data.target).is(":checked") ? 1 : 0,
+    });
+  });
+  chrome.storage.sync.set({
+    ["highlightWordsButton"]: $(data.target).is(":checked"),
+  });
+});
+
+// Emphasize Links Button
+$("#emphasizeLinksButton").bind("change", function (data) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, {
+      todo: "emphasizeLinks",
+      checkedButton: $(data.target).is(":checked") ? 1 : 0,
+    });
+  });
+  chrome.storage.sync.set({
+    ["emphasizeLinksButton"]: $(data.target).is(":checked"),
+  });
+});
+
+//Text Stroke Button
+$("#textStrokeButton").bind("change", function (data) {
+  var pickedColor = $("input[name=ts-color]:checked");
+  if ($(data.target).is(":checked")) {
+    if (pickedColor.length > 0) {
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {
+          todo: "textStroke",
+          textStrokeColor: pickedColor[0].value,
+          checkedButton: 1,
+        });
+      });
+    }
+  } else {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "textStroke",
+        checkedButton: 0,
+      });
+    });
+  }
+  chrome.storage.sync.set({
+    ["textStrokeColor"]: pickedColor.length > 0 ? pickedColor[0].value : "#C0382B",
+  });
+  chrome.storage.sync.set({
+    ["textStrokeColorId"]: pickedColor.length > 0 ? pickedColor[0].id : "color-12",
+  });
+  chrome.storage.sync.set({
+    ["textStrokeButton"]: $(data.target).is(":checked"),
+  });
+});
+
+// Text Stroke Color Palette
+$("input[name=ts-color]").bind("change", function (data) {
+  if ($("#textStrokeButton").is(":checked")) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "textStroke",
+        textStrokeColor: $(data.target).val(),
+        checkedButton: 1,
+      });
+    });
+  } else {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "textStroke",
+        checkedButton: 0,
+      });
+    });
+  }
+  chrome.storage.sync.set({ ["textStrokeColor"]: $(data.target).val() });
+  chrome.storage.sync.set({ ["textStrokeColorId"]: $(data.target).attr("id") });
 });
 
 //Font Color Button
@@ -402,6 +567,7 @@ $("input[name=ts-color]").bind("change", function (data) {
 // Speech Recognition
 const startButton = document.getElementsByClassName("activation-button")[0];
 startButton.addEventListener("click", function () {
+
 	chrome.storage.sync.get("assistant_enable", function (stored) {
 		if (stored.assistant_enable) {
 			if (assistant_start) {
@@ -419,63 +585,64 @@ startButton.addEventListener("click", function () {
 			$(".activation-button").attr("src", "images/microphone-disable.png");
 		}
 	});
+
 });
 
 var recognition,
-	isStopButtonClicked = false;
+  isStopButtonClicked = false;
 
 const startRecog = () => {
-	recognition = new webkitSpeechRecognition();
-	recognition.continuous = false;
-	recognition.interimResults = true;
-	recognition.lang = "en-US";
+  recognition = new webkitSpeechRecognition();
+  recognition.continuous = false;
+  recognition.interimResults = true;
+  recognition.lang = "en-US";
 
-	recognition.onresult = (event) => {
-		let last = event.results.length - 1;
-		let lastTranscript = event.results[last][0].transcript;
-		let interim_transcript = "";
-		let final_transcript = "";
+  recognition.onresult = (event) => {
+    let last = event.results.length - 1;
+    let lastTranscript = event.results[last][0].transcript;
+    let interim_transcript = "";
+    let final_transcript = "";
 
-		for (var i = event.resultIndex; i < event.results.length; ++i) {
-			// Verify if the recognized text is the last with the isFinal property
-			if (event.results[i].isFinal) {
-				final_transcript += event.results[i][0].transcript;
-			} else {
-				interim_transcript += event.results[i][0].transcript;
-			}
-		}
-		console.log(final_transcript);
-		if (final_transcript != "" && final_transcript !== "undefined") {
-			sendResult(final_transcript.toLowerCase());
-		}
-	};
+    for (var i = event.resultIndex; i < event.results.length; ++i) {
+      // Verify if the recognized text is the last with the isFinal property
+      if (event.results[i].isFinal) {
+        final_transcript += event.results[i][0].transcript;
+      } else {
+        interim_transcript += event.results[i][0].transcript;
+      }
+    }
+    console.log(final_transcript);
+    if (final_transcript != "" && final_transcript !== "undefined") {
+      sendResult(final_transcript.toLowerCase());
+    }
+  };
 
-	recognition.onerror = (event) => {
-		console.log("error", event.error);
-		if (event.error === "not-allowed") {
-			const errorMessage =
-				"AudioCapture permission has been blocked because of a Feature Policy applied to the current document. See https://goo.gl/EuHzyv for more details.";
-			chrome.runtime.sendMessage({ error: errorMessage });
-			isStopButtonClicked = true;
-			recognition.stop();
-		}
-	};
+  recognition.onerror = (event) => {
+    console.log("error", event.error);
+    if (event.error === "not-allowed") {
+      const errorMessage =
+        "AudioCapture permission has been blocked because of a Feature Policy applied to the current document. See https://goo.gl/EuHzyv for more details.";
+      chrome.runtime.sendMessage({ error: errorMessage });
+      isStopButtonClicked = true;
+      recognition.stop();
+    }
+  };
 
-	recognition.onspeechstart = (event) => console.log("speech started");
-	recognition.onspeechend = (event) => stopTracking();
-	recognition.onend = function (event) {
-		if (isStopButtonClicked) {
-			stopTracking();
-		} else {
-			startTracking();
-		}
-	};
+  recognition.onspeechstart = (event) => console.log("speech started");
+  recognition.onspeechend = (event) => stopTracking();
+  recognition.onend = function (event) {
+    if (isStopButtonClicked) {
+      stopTracking();
+    } else {
+      startTracking();
+    }
+  };
 };
 
 const startTracking = () => recognition.start();
 
 const stopTracking = () => {
-	recognition.stop();
+  recognition.stop();
 };
 
 startRecog();
@@ -542,6 +709,7 @@ function sendResult(data) {
 			});
 		}
 	}
+
 }
 
 //
