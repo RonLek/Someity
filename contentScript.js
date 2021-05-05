@@ -104,11 +104,8 @@ function magnifier() {
 
 var magnify = new magnifier();
 
-var images = document.getElementsByTagName("img");
+var images = [];
 var imageSource = [];
-for (var i = 0; i < images.length; i++) {
-  imageSource.push(images[i].src || images[i].srcset);
-}
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   // Changing color of font
@@ -179,10 +176,18 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
   // Image Veil
   if (message.todo == "imageVeil") {
+    if (images.length === 0 && imageSource.length === 0) {
+      images = document.getElementsByTagName("img");
+      for (var i = 0; i < images.length; i++) {
+        imageSource.push(images[i].src || images[i].srcset);
+      }
+    }
     if (message.checkedButton == 0) {
       for (var i = 0; i < images.length; i++) {
         images[i].src = imageSource[i];
       }
+      images = [];
+      imageSource = [];
     } else {
       for (var i = 0, l = images.length; i < l; i++) {
         images[i].removeAttribute("srcset");
