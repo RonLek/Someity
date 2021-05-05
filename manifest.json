@@ -42,7 +42,11 @@
 	},
 	"web_accessible_resources": [
 		{
-			"resources": ["scripts/css/fonts/Sign-Language.ttf", "scripts/css/*"],
+			"resources": [
+				"scripts/css/fonts/Sign-Language.ttf",
+				"scripts/css/*",
+				"scripts/*"
+			],
 			"matches": ["http://*/*", "https://*/*", "file://*/*"]
 		}
 	]

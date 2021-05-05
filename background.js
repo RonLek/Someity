@@ -104,14 +104,6 @@ chrome.tabs.onActivated.addListener(function (activeInfo) {
 	);
 });
 
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-	if (message.todo == "textSelected") {
-		console.log(message.textSelected);
-		// chrome.tts.speak("Hello ");
-		sendResponse({ received: "ok" });
-	}
-});
-
 chrome.runtime.onConnect.addListener(function (port) {
 	var temp;
 	console.assert(port.name == "performAction");
@@ -171,8 +163,7 @@ chrome.contextMenus.onClicked.addListener(function (clickData, tabdata) {
 			todo: "speakTTS",
 			selectedText: clickData.selectionText,
 		});
-		// chrome.tts.speak(clickData.selectionText, {
-		// 	rate: 0.7,
-		// });
 	}
 });
+
+// Chrome on startup
