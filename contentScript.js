@@ -104,161 +104,168 @@ function magnifier() {
 
 var magnify = new magnifier();
 
-var images = document.getElementsByTagName("img");
+var images = [];
 var imageSource = [];
-for (var i = 0; i < images.length; i++) {
-	imageSource.push(images[i].src || images[i].srcset);
-}
+
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-	// Changing color of font
-	if (message.todo == "fontColor") {
-		if (message.checkedButton == 0) {
-			$("#i4all-font-color").remove();
-		} else {
-			if ($("#i4all-font-color") != null) {
-				$("#i4all-font-color").remove();
-			}
-			$(
-				"<style id='i4all-font-color'>:not(a), :not(img)  { color: " +
-					message.fontColor +
-					"! important; }</style>"
-			).appendTo("head");
-		}
-	}
+  // Changing color of font
+  if (message.todo == "fontColor") {
+    if (message.checkedButton == 0) {
+      $("#i4all-font-color").remove();
+    } else {
+      if ($("#i4all-font-color") != null) {
+        $("#i4all-font-color").remove();
+      }
+      $(
+        "<style id='i4all-font-color'>:not(a), :not(img)  { color: " +
+          message.fontColor +
+          "! important; }</style>"
+      ).appendTo("head");
+    }
+  }
 
-	// Changing Font Family
-	if (message.todo == "fontFamily") {
-		if (message.checkedButton == 0) {
-			$("#i4all-font-family").remove();
-		} else {
-			if ($("#i4all-font-family") != null) {
-				$("#i4all-font-family").remove();
-			}
-			if (message.fontFamily == "sign-language") {
-				$(
-					"<link rel='stylesheet' type='text/css' id='i4all-font-family' href='chrome-extension://" +
-						chrome.runtime.id +
-						"/scripts/css/sign-language.css'>"
-				).appendTo("head");
-			} else {
-				$(
-					"<style id='i4all-font-family'> p,a,h1,h2,h4,h3,h5,h6,input,ul,span,strong,th,td,ul,li,ol,button  { font-family: " +
-						message.fontFamily +
-						"!important; }</style>"
-				).appendTo("head");
-			}
-		}
-	}
+  // Changing Font Family
+  if (message.todo == "fontFamily") {
+    if (message.checkedButton == 0) {
+      $("#i4all-font-family").remove();
+    } else {
+      if ($("#i4all-font-family") != null) {
+        $("#i4all-font-family").remove();
+      }
+      if (message.fontFamily == "sign-language") {
+        $(
+          "<link rel='stylesheet' type='text/css' id='i4all-font-family' href='chrome-extension://" +
+            chrome.runtime.id +
+            "/scripts/css/sign-language.css'>"
+        ).appendTo("head");
+      } else {
+        $(
+          "<style id='i4all-font-family'> p,a,h1,h2,h4,h3,h5,h6,input,ul,span,strong,th,td,ul,li,ol,button  { font-family: " +
+            message.fontFamily +
+            "!important; }</style>"
+        ).appendTo("head");
+      }
+    }
+  }
 
-	// Changing Font Size
-	if (message.todo == "fontSize") {
-		if (message.checkedButton == 0) {
-			$("#i4all-font-size").remove();
-		} else {
-			if ($("#i4all-font-size") != null) {
-				$("#i4all-font-size").remove();
-			}
-			$(
-				"<style id='i4all-font-size'> p,a,h1,h2,h4,h3,h5,h6,input,ul,span,strong,th,td,ul,li,ol,button  { font-size: " +
-					message.fontSize.toString() +
-					"px" +
-					"!important; }</style>"
-			).appendTo("head");
-		}
-	}
+  // Changing Font Size
+  if (message.todo == "fontSize") {
+    if (message.checkedButton == 0) {
+      $("#i4all-font-size").remove();
+    } else {
+      if ($("#i4all-font-size") != null) {
+        $("#i4all-font-size").remove();
+      }
+      $(
+        "<style id='i4all-font-size'> p,a,h1,h2,h4,h3,h5,h6,input,ul,span,strong,th,td,ul,li,ol,button  { font-size: " +
+          message.fontSize.toString() +
+          "px" +
+          "!important; }</style>"
+      ).appendTo("head");
+    }
+  }
 
-	// Magnify Image Feature
-	if (message.todo == "magnify") {
-		if (message.checkedButton == 0) {
-			magnify.removeMagnifier("img");
-		} else {
-			magnify.magnifyImg("img", magnification, magnifierSize);
-		}
-	}
+  // Magnify Image Feature
+  if (message.todo == "magnify") {
+    if (message.checkedButton == 0) {
+      magnify.removeMagnifier("img");
+    } else {
+      magnify.magnifyImg("img", magnification, magnifierSize);
+    }
+  }
 
-	// Image Veil
-	if (message.todo == "imageVeil") {
-		if (message.checkedButton == 0) {
-			for (var i = 0; i < images.length; i++) {
-				images[i].src = imageSource[i];
-			}
-		} else {
-			for (var i = 0, l = images.length; i < l; i++) {
-				images[i].removeAttribute("srcset");
-				images[i].src =
-					"https://via.placeholder.com/" +
-					images[i].width +
-					"x" +
-					images[i].height +
-					"?text=" +
-					images[i].alt.replace(/ /g, "+");
-			}
-		}
-	}
+  // Image Veil
+  if (message.todo == "imageVeil") {
+    if (images.length === 0 && imageSource.length === 0) {
+      images = document.getElementsByTagName("img");
+      for (var i = 0; i < images.length; i++) {
+        imageSource.push(images[i].src || images[i].srcset);
+      }
+    }
+    if (message.checkedButton == 0) {
+      for (var i = 0; i < images.length; i++) {
+        images[i].src = imageSource[i];
+      }
+      images = [];
+      imageSource = [];
+    } else {
+      for (var i = 0, l = images.length; i < l; i++) {
+        images[i].removeAttribute("srcset");
+        images[i].src =
+          "https://via.placeholder.com/" +
+          images[i].width +
+          "x" +
+          images[i].height +
+          "?text=" +
+          images[i].alt.replace(/ /g, "+");
+      }
+    }
+  }
 
-	// Highlight Words
-	if (message.todo == "highlight") {
-		if (message.checkedButton == 0) {
-			var paragraphs = document.getElementsByTagName("p");
-			for (var i = 0; i < paragraphs.length; i++) {
-				paragraphs[i].classList.remove("word_split");
-			}
-		} else {
-			$(document).ready(function () {
-				var paragraphs = document.getElementsByTagName("p");
-				for (var i = 0; i < paragraphs.length; i++) {
-					paragraphs[i].classList.add("word_split");
-				}
-				$(".word_split").lettering("words");
-			});
-		}
-	}
+  // Highlight Words
+  if (message.todo == "highlight") {
+    if (message.checkedButton == 0) {
+      var paragraphs = document.getElementsByTagName("p");
+      for (var i = 0; i < paragraphs.length; i++) {
+        paragraphs[i].classList.remove("word_split");
+      }
+    } else {
+      $(document).ready(function () {
+        var paragraphs = document.getElementsByTagName("p");
+        for (var i = 0; i < paragraphs.length; i++) {
+          paragraphs[i].classList.add("word_split");
+        }
+        $(".word_split").lettering("words");
+      });
+    }
+  }
 
-	// Speak TTS
-	if (message.todo == "speakTTS") {
-		var msg = new SpeechSynthesisUtterance();
-		msg.text = message.selectedText;
-		window.speechSynthesis.speak(msg);
-	}
+  // Speak TTS
+  if (message.todo == "speakTTS") {
+    var msg = new SpeechSynthesisUtterance();
+    msg.text = message.selectedText;
+    window.speechSynthesis.speak(msg);
+  }
 
-	// Emphasize Links
-	if (message.todo == "emphasizeLinks") {
-		if (message.checkedButton == 0) {
-			var anchors = document.getElementsByTagName("a");
-			for (var i = 0; i < anchors.length; i++) {
-				anchors[i].classList.remove("emphasize");
-			}
-		} else {
-			$(document).ready(function () {
-				var anchors = document.getElementsByTagName("a");
-				for (var i = 0; i < anchors.length; i++) {
-					anchors[i].classList.add("emphasize");
-				}
-			});
-		}
-	}
+  // Emphasize Links
+  if (message.todo == "emphasizeLinks") {
+    if (message.checkedButton == 0) {
+      var anchors = document.getElementsByTagName("a");
+      for (var i = 0; i < anchors.length; i++) {
+        anchors[i].classList.remove("emphasize");
+      }
+    } else {
+      $(document).ready(function () {
+        var anchors = document.getElementsByTagName("a");
+        for (var i = 0; i < anchors.length; i++) {
+          anchors[i].classList.add("emphasize");
+        }
+      });
+    }
+  }
 
-	// Text Stroke
-	if (message.todo == "textStroke") {
-		if (message.checkedButton == 0) {
-			$("#text-stroke").remove();
-		} else {
-			$(document).ready(function () {
-				if ($("#text-stroke") != null) {
-					$("#text-stroke").remove();
-				}
-				$(
-					"<style id='text-stroke'> p,h1,h2,h3,h4,h5,h6,b,a,li,lo,ul  { -webkit-text-fill-color: white; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: " +
-						message.textStrokeColor +
-						" !important; }</style>"
-				).appendTo("head");
-			});
-		}
-	}
-	if (message.todo == "printJob") {
+  // Text Stroke
+  if (message.todo == "textStroke") {
+    if (message.checkedButton == 0) {
+      $("#text-stroke").remove();
+    } else {
+      $(document).ready(function () {
+        if ($("#text-stroke") != null) {
+          $("#text-stroke").remove();
+        }
+        $(
+          "<style id='text-stroke'> p,h1,h2,h3,h4,h5,h6,b,a,li,lo,ul  { -webkit-text-fill-color: white; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: " +
+            message.textStrokeColor +
+            " !important; }</style>"
+        ).appendTo("head");
+      });
+    }
+  }
+  if (message.todo == "printJob") {
 		window.print();
 	}
+
 });
 
 // Getting highlighted Text
