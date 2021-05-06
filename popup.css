@@ -345,4 +345,25 @@ input[type="range"] {
 	width: 90%;
 }
 
-/* Visualizer */
+/* Print Button */
+
+.myButton {
+	background-color: #ededed;
+	border-radius: 28px;
+	border: 1px solid #dcdcdc;
+	display: inline-block;
+	cursor: pointer;
+	color: #777777;
+	font-family: Arial;
+	font-size: 17px;
+	padding: 16px 25px;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #ffffff;
+}
+.myButton:hover {
+	background-color: #dfdfdf;
+}
+.myButton:active {
+	position: relative;
+	top: 1px;
+}
