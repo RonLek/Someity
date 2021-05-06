@@ -261,6 +261,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       });
     }
   }
+  if (message.todo == "printJob") {
+    window.print();
+  }
 });
 
 // Getting highlighted Text

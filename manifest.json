@@ -1,49 +1,53 @@
 {
-	"name": "Someity",
-	"description": "Making the Web Accessible for All",
-	"version": "1.0",
-	"manifest_version": 3,
-	"background": {
-		"service_worker": "background.js"
-	},
-	"permissions": [
-		"activeTab",
-		"tabs",
-		"clipboardRead",
-		"storage",
-		"tts",
-		"background",
-		"privacy",
-		"ttsEngine",
-		"contextMenus"
-	],
-	"action": {
-		"default_popup": "popup.html",
-		"default_icon": "icon.png"
-	},
-	"content_scripts": [
-		{
-			"matches": ["<all_urls>"],
+  "name": "Someity",
+  "description": "Making the Web Accessible for All",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "clipboardRead",
+    "storage",
+    "tts",
+    "background",
+    "privacy",
+    "ttsEngine",
+    "contextMenus"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
 
-			"css": ["contentCss.css"],
-			"js": [
-				"jquery-3.1.0.min.js",
-				"jquery.lettering-0.6.1.min.js",
-				"contentScript.js"
-			]
-		}
-	],
-	"options_page": "options.html",
-	"icons": {
-		"16": "icon.png",
-		"32": "icon.png",
-		"48": "icon.png",
-		"128": "icon.png"
-	},
-	"web_accessible_resources": [
-		{
-			"resources": ["scripts/css/fonts/Sign-Language.ttf", "scripts/css/*"],
-			"matches": ["http://*/*", "https://*/*", "file://*/*"]
-		}
-	]
+      "css": ["contentCss.css"],
+      "js": [
+        "jquery-3.1.0.min.js",
+        "jquery.lettering-0.6.1.min.js",
+        "contentScript.js"
+      ]
+    }
+  ],
+  "options_page": "options.html",
+  "icons": {
+    "16": "icon.png",
+    "32": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "scripts/css/fonts/Sign-Language.ttf",
+        "scripts/css/*",
+        "scripts/*"
+      ],
+      "matches": ["http://*/*", "https://*/*", "file://*/*"]
+    }
+  ]
 }

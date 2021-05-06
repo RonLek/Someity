@@ -271,6 +271,13 @@ label span {
   margin-right: 20px;
 }
 
+.button-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
 /* The switch - the box around the slider */
 .switch {
   position: relative;
@@ -312,11 +319,11 @@ label span {
 }
 
 input:checked + .slider {
-  background-color: #2196f3;
+  background-color: #1e78c2;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
+  box-shadow: 0 0 1px #1e78c2;
 }
 
 input:checked + .slider:before {
@@ -338,4 +345,27 @@ input[type="range"] {
   width: 90%;
 }
 
-/* Visualizer */
+/* Print Button */
+
+.printButton {
+  box-shadow: 0px 0px 0px 0px #97c4fe;
+  background-color: #1e78c2;
+  border-radius: 10px;
+  border: 1px solid #1e78c2;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 19px;
+  padding: 10px 20px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #1570cd;
+}
+.printButton:hover {
+  --tw-bg-opacity: 1;
+  background-color: #1b69a8;
+}
+.printButton:active {
+  position: relative;
+  top: 1px;
+}
