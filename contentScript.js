@@ -17,7 +17,6 @@ function magnifier() {
     }
 
     if (!$pointer.is("img")) {
-      //   alert('Object must be image.');
       return false;
     }
 
@@ -87,7 +86,6 @@ function magnifier() {
     }
 
     if (!$pointer.is("img")) {
-      //   alert('Object must be image.');
       return false;
     }
 
@@ -107,6 +105,7 @@ var magnify = new magnifier();
 var images = [];
 var imageSource = [];
 
+// Communication with popup.js
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   // Changing color of font
   if (message.todo == "fontColor") {
@@ -264,86 +263,4 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.todo == "printJob") {
     window.print();
   }
-});
-
-// Getting highlighted Text
-function getSelectedText() {
-  var text = "";
-  if (typeof window.getSelection != "undefined") {
-    text = window.getSelection().toString();
-  } else if (
-    typeof document.selection != "undefined" &&
-    document.selection.type == "Text"
-  ) {
-    text = document.selection.createRange().text;
-  }
-  return text;
-}
-
-function returingSelectedText() {
-  var selectedText = getSelectedText();
-  if (selectedText) {
-    // chrome.runtime.sendMessage(
-    //   {
-    //     todo: "textSelected",
-    //     textSelected: selectedText,
-    //   },
-    //   function (response) {
-    //     console.log(response);
-    //   }
-    // );
-  }
-  // if (selectedText) {
-  // 	alert("Got selected text " + selectedText);
-  // }
-}
-
-document.onmouseup = returingSelectedText;
-document.onkeyup = returingSelectedText;
-
-// TTS
-$("body").attr("id", "textToSelect");
-$(document).ready(function () {
-  function tweetButtonClick() {
-    let selectedText = document.getSelection().toString();
-    /*window.open(
-		"https://twitter.com/intent/tweet?url=https://www.linkedin.com/in/harsha-vardhan-ch-245197bb/&text=" +
-		  selectedText
-	  );*/
-    console.log("This is your selected text: ", selectedText);
-  }
-
-  const textSelectionTooltipContainer = document.createElement("div");
-  textSelectionTooltipContainer.setAttribute(
-    "id",
-    "textSelectionTooltipContainer"
-  );
-  textSelectionTooltipContainer.innerHTML = `<button id="textShareTwitterBtn">TWEET</button>`;
-  const bodyElement = document.getElementsByTagName("BODY")[0];
-
-  $("body").on("click", "#textShareTwitterBtn", tweetButtonClick);
-
-  bodyElement.addEventListener("mouseup", function (e) {
-    var textu = document.getSelection().toString();
-    if (!textu.length) {
-      textSelectionTooltipContainer.remove();
-    }
-  });
-
-  document
-    .getElementById("textToSelect")
-    .addEventListener("mouseup", function (e) {
-      let textu = document.getSelection().toString();
-      let matchu = /\r|\n/.exec(textu);
-      if (textu.length && !matchu) {
-        let range = document.getSelection().getRangeAt(0);
-        rect = range.getBoundingClientRect();
-        scrollPosition = $(window).scrollTop();
-        containerTop = scrollPosition + rect.top - 50 + "px";
-        containerLeft = rect.left + rect.width / 2 - 50 + "px";
-        textSelectionTooltipContainer.style.transform =
-          "translate3d(" + containerLeft + "," + containerTop + "," + "0px)";
-        // bodyElement.appendChild(textSelectionTooltipContainer);
-      }
-    });
 });

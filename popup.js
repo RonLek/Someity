@@ -143,7 +143,6 @@ $(function () {
 // Font Type || Font Family button bind
 $("#fontTypeButton").bind("change", function () {
   if ($(this).is(":checked")) {
-    console.log($("#fontTypeDropDown").val());
     document.getElementById("font-type-switch-header").textContent = "On";
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {
@@ -168,7 +167,6 @@ $("#fontTypeButton").bind("change", function () {
 // Font Type || Font Family drop down bind
 $("#fontTypeDropDown").change(function (data) {
   if ($("#fontTypeButton").is(":checked")) {
-    console.log($(data.target).val());
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {
         todo: "fontFamily",
@@ -611,14 +609,12 @@ const startRecog = () => {
         interim_transcript += event.results[i][0].transcript;
       }
     }
-    console.log(final_transcript);
     if (final_transcript != "" && final_transcript !== "undefined") {
       sendResult(final_transcript.toLowerCase());
     }
   };
 
   recognition.onerror = (event) => {
-    console.log("error", event.error);
     if (event.error === "not-allowed") {
       const errorMessage =
         "AudioCapture permission has been blocked because of a Feature Policy applied to the current document. See https://goo.gl/EuHzyv for more details.";
@@ -648,7 +644,6 @@ const stopTracking = () => {
 startRecog();
 
 function sendResult(data) {
-  console.log(data);
   var result;
   var port = chrome.runtime.connect({ name: "performAction" });
   if (data.includes("open")) {

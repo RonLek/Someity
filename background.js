@@ -1,15 +1,8 @@
-// chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-// 	if (message.greeting == "removeCookie") {
-// 		sendResponse({ farewell: "cookie clean" });
-// 	}
-// });
-
+// On Install
 chrome.runtime.onInstalled.addListener(function () {
   chrome.tabs.create(
     { url: `chrome-extension://${chrome.runtime.id}/options.html` },
-    function (tab) {
-      console.log("options page opened");
-    }
+    function (tab) {}
   );
   chrome.storage.sync.set({ ["clickedColor"]: "#3399FF80" });
   chrome.storage.sync.set({ ["fontFamily"]: "Arial" });
@@ -24,15 +17,7 @@ chrome.runtime.onInstalled.addListener(function () {
   chrome.storage.sync.set({ ["scrollValue"]: 0 });
 });
 
-// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-// 	// if (request.todo == "showPageAction") {
-// 	// 	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-// 	// 		chrome.pageAction.show(tabs[0].id);
-// 	// 	});
-// 	// }
-// 	alert(request);
-// });
-
+// On Tab Change
 chrome.tabs.onActivated.addListener(function (activeInfo) {
   chrome.storage.sync.get(
     [
@@ -60,7 +45,6 @@ chrome.tabs.onActivated.addListener(function (activeInfo) {
         });
       }
 
-      console.log("Stored = ", stored);
       if (stored.fontSizeButton) {
         chrome.tabs.sendMessage(activeInfo.tabId, {
           todo: "fontSize",
@@ -112,7 +96,6 @@ chrome.runtime.onConnect.addListener(function (port) {
     if (msg.action == "open") {
       temp = msg.result;
       if (temp != null && temp !== "undefined") {
-        console.log(temp);
         chrome.tabs.create({
           url: temp,
         });
@@ -122,7 +105,6 @@ chrome.runtime.onConnect.addListener(function (port) {
       temp = msg.result;
 
       if (temp != null && temp !== "undefined") {
-        console.log(temp);
         chrome.tabs.create({
           url: temp,
         });
@@ -131,7 +113,6 @@ chrome.runtime.onConnect.addListener(function (port) {
     } else if (msg.action == "translate") {
       temp = msg.result;
       if (temp != null && temp !== "undefined") {
-        console.log(temp);
         chrome.tabs.create({
           url: temp,
         });
@@ -140,7 +121,6 @@ chrome.runtime.onConnect.addListener(function (port) {
     } else if (msg.action == "direction") {
       temp = msg.result;
       if (temp != null && temp !== "undefined") {
-        console.log(temp);
         chrome.tabs.create({
           url: temp,
         });
@@ -150,6 +130,7 @@ chrome.runtime.onConnect.addListener(function (port) {
   });
 });
 
+// Context Menu
 var menuItem = {
   id: "Speak",
   title: "Speak",
@@ -171,17 +152,11 @@ chrome.contextMenus.onClicked.addListener(function (clickData, tabdata) {
 var id = 100;
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.todo == "screenshot") {
-    chrome.tabs.captureVisibleTab({"format":"png"}, function (screenshotUrl) {
+    chrome.tabs.captureVisibleTab({ format: "png" }, function (screenshotUrl) {
       chrome.storage.local.set({ ["setScreenshot"]: screenshotUrl });
 
       var viewTabUrl = chrome.runtime.getURL("screenshot.html?id=" + id);
       var targetId = null;
-
-      // chrome.tabs.onUpdated.addListener(function listener(tabId, changedProps) {
-      //   if (tabId != targetId || changedProps.status != "complete") return;
-      //   chrome.tabs.onUpdated.removeListener(listener);
-      // });
-
       chrome.tabs.create({ url: viewTabUrl }, function (tab) {
         targetId = tab.id;
       });
