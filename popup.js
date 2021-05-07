@@ -717,9 +717,14 @@ $("#screenshotClick").bind("click", function () {
 });
 
 // window.scroll
-$(window).scroll(function (event) {
-  var st = $(this).scrollTop();
-  chrome.storage.sync.set({
-    ["scrollValue"]: st,
-  });
-});
+
+var last_scroll_val = 0;
+setInterval(function () {
+  var st = $(window).scrollTop();
+  if (last_scroll_val != st) {
+    last_scroll_val = st;
+    chrome.storage.sync.set({
+      ["scrollValue"]: st,
+    });
+  }
+}, 1000);
