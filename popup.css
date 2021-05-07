@@ -369,3 +369,27 @@ input[type="range"] {
   position: relative;
   top: 1px;
 }
+
+/* Screenshot Button */
+.screenshotButton {
+  box-shadow: 0px 0px 0px 0px #97c4fe;
+  background-color: #1e78c2;
+  border-radius: 10px;
+  border: 1px solid #1e78c2;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 19px;
+  padding: 10px 20px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #1570cd;
+}
+.screenshotButton:hover {
+  --tw-bg-opacity: 1;
+  background-color: #1b69a8;
+}
+.screenshotButton:active {
+  position: relative;
+  top: 1px;
+}

@@ -21,6 +21,7 @@ chrome.runtime.onInstalled.addListener(function () {
   chrome.storage.sync.set({ ["magnifyButton"]: false });
   chrome.storage.sync.set({ ["imageVeilButton"]: false });
   chrome.storage.sync.set({ ["highlightWordsButton"]: false });
+  chrome.storage.sync.set({ ["scrollValue"]: 0 });
 });
 
 // chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -166,4 +167,24 @@ chrome.contextMenus.onClicked.addListener(function (clickData, tabdata) {
   }
 });
 
-// Chrome on startup
+// Chrome Screenshot
+var id = 100;
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+  if (message.todo == "screenshot") {
+    chrome.tabs.captureVisibleTab({"format":"png"}, function (screenshotUrl) {
+      chrome.storage.local.set({ ["setScreenshot"]: screenshotUrl });
+
+      var viewTabUrl = chrome.runtime.getURL("screenshot.html?id=" + id);
+      var targetId = null;
+
+      // chrome.tabs.onUpdated.addListener(function listener(tabId, changedProps) {
+      //   if (tabId != targetId || changedProps.status != "complete") return;
+      //   chrome.tabs.onUpdated.removeListener(listener);
+      // });
+
+      chrome.tabs.create({ url: viewTabUrl }, function (tab) {
+        targetId = tab.id;
+      });
+    });
+  }
+});

@@ -135,6 +135,9 @@ $(function () {
   chrome.storage.sync.get("textStrokeButton", function (stored) {
     $("#textStrokeButton").prop("checked", stored.textStrokeButton);
   });
+  chrome.storage.sync.get("scrollValue", function (stored) {
+    $("html, body").animate({ scrollTop: stored.scrollValue });
+  });
 });
 
 // Font Type || Font Family button bind
@@ -698,6 +701,7 @@ function sendResult(data) {
   }
 }
 
+//Print
 $("#printjob").bind("click", function () {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, {
@@ -705,3 +709,22 @@ $("#printjob").bind("click", function () {
     });
   });
 });
+// Screenshot
+$("#screenshotClick").bind("click", function () {
+  chrome.runtime.sendMessage({
+    todo: "screenshot",
+  });
+});
+
+// window.scroll
+
+var last_scroll_val = 0;
+setInterval(function () {
+  var st = $(window).scrollTop();
+  if (last_scroll_val != st) {
+    last_scroll_val = st;
+    chrome.storage.sync.set({
+      ["scrollValue"]: st,
+    });
+  }
+}, 1000);
