@@ -171,16 +171,16 @@ chrome.contextMenus.onClicked.addListener(function (clickData, tabdata) {
 var id = 100;
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.todo == "screenshot") {
-    chrome.tabs.captureVisibleTab(function (screenshotUrl) {
+    chrome.tabs.captureVisibleTab({"format":"png"}, function (screenshotUrl) {
       chrome.storage.local.set({ ["setScreenshot"]: screenshotUrl });
 
       var viewTabUrl = chrome.runtime.getURL("screenshot.html?id=" + id);
       var targetId = null;
 
-      chrome.tabs.onUpdated.addListener(function listener(tabId, changedProps) {
-        if (tabId != targetId || changedProps.status != "complete") return;
-        chrome.tabs.onUpdated.removeListener(listener);
-      });
+      // chrome.tabs.onUpdated.addListener(function listener(tabId, changedProps) {
+      //   if (tabId != targetId || changedProps.status != "complete") return;
+      //   chrome.tabs.onUpdated.removeListener(listener);
+      // });
 
       chrome.tabs.create({ url: viewTabUrl }, function (tab) {
         targetId = tab.id;
