@@ -698,10 +698,17 @@ function sendResult(data) {
   }
 }
 
+//Print
 $("#printjob").bind("click", function () {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, {
       todo: "printJob",
     });
+  });
+});
+// Screenshot
+$("#screenshotClick").bind("click", function () {
+  chrome.runtime.sendMessage({
+    todo: "screenshot",
   });
 });
