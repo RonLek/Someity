@@ -204,16 +204,13 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   // Highlight Words
   if (message.todo == "highlight") {
     if (message.checkedButton == 0) {
-      var paragraphs = document.getElementsByTagName("p");
-      for (var i = 0; i < paragraphs.length; i++) {
-        paragraphs[i].classList.remove("word_split");
+      if($("p,h1,h2,h4,h3,h5,h6,li").hasClass("word_split")) {
+        $("p,h1,h2,h4,h3,h5,h6,li").removeClass("word_split");
+        location.reload();
       }
     } else {
       $(document).ready(function () {
-        var paragraphs = document.getElementsByTagName("p");
-        for (var i = 0; i < paragraphs.length; i++) {
-          paragraphs[i].classList.add("word_split");
-        }
+        $("p,h1,h2,h4,h3,h5,h6,li").addClass("word_split");
         $(".word_split").lettering("words");
       });
     }
