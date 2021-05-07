@@ -9,11 +9,9 @@
   "permissions": [
     "activeTab",
     "tabs",
-    "clipboardRead",
     "storage",
     "tts",
     "background",
-    "privacy",
     "ttsEngine",
     "contextMenus"
   ],
