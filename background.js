@@ -21,6 +21,7 @@ chrome.runtime.onInstalled.addListener(function () {
   chrome.storage.sync.set({ ["magnifyButton"]: false });
   chrome.storage.sync.set({ ["imageVeilButton"]: false });
   chrome.storage.sync.set({ ["highlightWordsButton"]: false });
+  chrome.storage.sync.set({ ["scrollValue"]: 0 });
 });
 
 // chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {

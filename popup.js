@@ -135,6 +135,9 @@ $(function () {
   chrome.storage.sync.get("textStrokeButton", function (stored) {
     $("#textStrokeButton").prop("checked", stored.textStrokeButton);
   });
+  chrome.storage.sync.get("scrollValue", function (stored) {
+    $("html, body").animate({ scrollTop: stored.scrollValue });
+  });
 });
 
 // Font Type || Font Family button bind
@@ -710,5 +713,13 @@ $("#printjob").bind("click", function () {
 $("#screenshotClick").bind("click", function () {
   chrome.runtime.sendMessage({
     todo: "screenshot",
+  });
+});
+
+// window.scroll
+$(window).scroll(function (event) {
+  var st = $(this).scrollTop();
+  chrome.storage.sync.set({
+    ["scrollValue"]: st,
   });
 });
