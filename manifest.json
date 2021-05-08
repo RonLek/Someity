@@ -6,6 +6,10 @@
   "background": {
     "service_worker": "background.js"
   },
+  "default_locale": "en",
+  "author": "Rohan Lekhwani and Aaditya Joshi",
+  "homepage_url": "https://someity.tech",
+  "short_name": "Someity",
   "permissions": [
     "activeTab",
     "tabs",
