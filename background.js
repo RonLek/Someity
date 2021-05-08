@@ -1,9 +1,6 @@
 // On Install
 chrome.runtime.onInstalled.addListener(function () {
-  chrome.tabs.create(
-    { url: `chrome-extension://${chrome.runtime.id}/options.html` },
-    function (tab) {}
-  );
+  chrome.tabs.create({ 'url': 'chrome://extensions/?options=' + chrome.runtime.id });
   chrome.storage.sync.set({ ["clickedColor"]: "#3399FF80" });
   chrome.storage.sync.set({ ["fontFamily"]: "Arial" });
   chrome.storage.sync.set({ ["fontTypeButton"]: false });
@@ -14,6 +11,10 @@ chrome.runtime.onInstalled.addListener(function () {
   chrome.storage.sync.set({ ["magnifyButton"]: false });
   chrome.storage.sync.set({ ["imageVeilButton"]: false });
   chrome.storage.sync.set({ ["highlightWordsButton"]: false });
+  chrome.storage.sync.set({ ["emphasizeLinksButton"]: false });
+  chrome.storage.sync.set({ ["textStrokeButton"]: false });
+  chrome.storage.sync.set({ ["textStrokeColor"]: "#C0382B" });
+  chrome.storage.sync.set({ ["textStrokeColorId"]: "color-12" });
   chrome.storage.sync.set({ ["scrollValue"]: 0 });
 });
 
@@ -30,6 +31,9 @@ chrome.tabs.onActivated.addListener(function (activeInfo) {
       "magnifyButton",
       "highlightWordsButton",
       "imageVeilButton",
+      "emphasizeLinksButton",
+      "textStrokeButton",
+      "textStrokeColor",
     ],
     function (stored) {
       if (stored.fontTypeButton) {
@@ -85,6 +89,24 @@ chrome.tabs.onActivated.addListener(function (activeInfo) {
         todo: "highlight",
         checkedButton: stored.highlightWordsButton ? 1 : 0,
       });
+
+      chrome.tabs.sendMessage(activeInfo.tabId, {
+        todo: "emphasizeLinks",
+        checkedButton: stored.emphasizeLinksButton ? 1 : 0,
+      });
+
+      if (stored.textStrokeButton) {
+        chrome.tabs.sendMessage(activeInfo.tabId, {
+          todo: "textStroke",
+          textStrokeColor: stored.textStrokeColor,
+          checkedButton: 1,
+        });
+      } else {
+        chrome.tabs.sendMessage(activeInfo.tabId, {
+          todo: "textStroke",
+          checkedButton: 0,
+        });
+      }
     }
   );
 });
