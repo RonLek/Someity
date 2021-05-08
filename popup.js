@@ -582,6 +582,15 @@ startButton.addEventListener("click", function () {
       }
     } else {
       $(".activation-button").attr("src", "images/microphone-disable.png");
+      var x = document.getElementById("snackbar");
+
+      // Add the "show" class to DIV
+      x.className = "show";
+
+      // After 3 seconds, remove the show class from DIV
+      setTimeout(function () {
+        x.className = x.className.replace("show", "");
+      }, 5000);
     }
   });
 });
