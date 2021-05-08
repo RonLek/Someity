@@ -206,7 +206,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.checkedButton == 0) {
       if($("p,h1,h2,h4,h3,h5,h6,li").hasClass("word_split")) {
         $("p,h1,h2,h4,h3,h5,h6,li").removeClass("word_split");
-        location.reload();
       }
     } else {
       $(document).ready(function () {
