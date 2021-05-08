@@ -59,12 +59,22 @@ for (var i = 0; i < colors.length; i++) {
 
 // On popup load function
 $(function () {
+  chrome.storage.sync.get("assistant_enable", function (stored) {
+    if (stored.assistant_enable) {
+      $(".activation-button").attr("src", "images/microphone-on.png");
+      isStopButtonClicked = false;
+      assistant_start = 1;
+      startTracking();
+    } else {
+      $(".activation-button").attr("src", "images/microphone-disable.png");
+    }
+  });
+
   // Font Slider Setting
   chrome.storage.sync.get("fontSizeSlider", function (stored) {
     $("#fontSizeSlider_value").html(stored.fontSizeSlider);
     $("#fontSizeSlider").val(stored.fontSizeSlider);
   });
-  $("#assistant_start").click();
 
   chrome.storage.sync.get("fontFamily", function (stored) {
     $("#fontTypeDropDown").val(stored.fontFamily);
