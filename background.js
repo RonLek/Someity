@@ -1,6 +1,9 @@
 // On Install
 chrome.runtime.onInstalled.addListener(function () {
-  chrome.tabs.create({ 'url': 'chrome://extensions/?options=' + chrome.runtime.id });
+  chrome.storage.sync.set({ ["assistant_enable"]: 1 });
+  chrome.tabs.create({
+    url: "chrome://extensions/?options=" + chrome.runtime.id,
+  });
   chrome.storage.sync.set({ ["clickedColor"]: "#3399FF80" });
   chrome.storage.sync.set({ ["fontFamily"]: "Arial" });
   chrome.storage.sync.set({ ["fontTypeButton"]: false });

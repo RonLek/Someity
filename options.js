@@ -1,6 +1,11 @@
-chrome.storage.sync.set({
-  ["assistant_enable"]: 1,
+chrome.storage.sync.get("assistant_enable", function (stored) {
+  if (stored.assistant_enable) {
+    $("#assistant_enable").prop("checked", true);
+  } else {
+    $("#assistant_enable").prop("checked", false);
+  }
 });
+
 var checkbox = document.querySelector("input[name=checkbox]");
 checkbox.addEventListener("change", function () {
   if (this.checked) {
