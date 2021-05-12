@@ -1,7 +1,7 @@
 {
   "name": "Someity",
   "description": "Making the Web Accessible for All",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
@@ -26,10 +26,7 @@
       ]
     }
   ],
-  "options_ui": {
-    "page": "options.html",
-    "open_in_tab": false
-  },
+  "options_page": "options.html",
   "icons": {
     "16": "icon.png",
     "32": "icon.png",
