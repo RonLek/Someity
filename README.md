@@ -2,7 +2,13 @@
 
 ![](/Someity.png)
 
-## Usage
+## Installation Instruction
+
+### Chrome Web Store
+[Someity](https://chrome.google.com/webstore/detail/someity/jifjdmnjnmpbclnpjlmebkclilekkdho/)
+
+
+### Local
 
 1. Clone this repository.
 
