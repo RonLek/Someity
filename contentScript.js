@@ -137,6 +137,18 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             chrome.runtime.id +
             "/scripts/css/sign-language.css'>"
         ).appendTo("head");
+      } else if (message.fontFamily == "open-dyslexic-regular") {
+        $(
+          "<link rel='stylesheet' type='text/css' id='i4all-font-family' href='chrome-extension://" +
+            chrome.runtime.id +
+            "/scripts/css/open-dyslexic-regular.css'>"
+        ).appendTo("head");
+      } else if (message.fontFamily == "lexend-regular") {
+        $(
+          "<link rel='stylesheet' type='text/css' id='i4all-font-family' href='chrome-extension://" +
+            chrome.runtime.id +
+            "/scripts/css/lexend-regular.css'>"
+        ).appendTo("head");
       } else {
         $(
           "<style id='i4all-font-family'> p,a,h1,h2,h4,h3,h5,h6,input,ul,span,strong,th,td,ul,li,ol,button  { font-family: " +
@@ -204,7 +216,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   // Highlight Words
   if (message.todo == "highlight") {
     if (message.checkedButton == 0) {
-      if($("p,h1,h2,h4,h3,h5,h6,li").hasClass("word_split")) {
+      if ($("p,h1,h2,h4,h3,h5,h6,li").hasClass("word_split")) {
         $("p,h1,h2,h4,h3,h5,h6,li").removeClass("word_split");
       }
     } else {

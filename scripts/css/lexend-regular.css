@@ -1,8 +1,8 @@
 @font-face {
-  font-family: Sign-Language;
+  font-family: Lexend-Regular;
   font-style: normal;
   font-weight: 400;
-  src: url("chrome-extension://__MSG_@@extension_id__/scripts/css/fonts/Sign-Language.ttf");
+  src: url("chrome-extension://__MSG_@@extension_id__/scripts/css/fonts/Lexend-Regular.ttf");
 }
 
 p,
@@ -23,7 +23,7 @@ ul,
 li,
 ol,
 button {
-  font-family: Sign-Language !important;
+  font-family: Lexend-Regular !important;
   font-size: larger;
   word-spacing: 10px;
 }
