@@ -131,31 +131,13 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       if ($("#i4all-font-family") != null) {
         $("#i4all-font-family").remove();
       }
-      if (message.fontFamily == "sign-language") {
-        $(
-          "<link rel='stylesheet' type='text/css' id='i4all-font-family' href='chrome-extension://" +
-            chrome.runtime.id +
-            "/scripts/css/sign-language.css'>"
-        ).appendTo("head");
-      } else if (message.fontFamily == "open-dyslexic-regular") {
-        $(
-          "<link rel='stylesheet' type='text/css' id='i4all-font-family' href='chrome-extension://" +
-            chrome.runtime.id +
-            "/scripts/css/open-dyslexic-regular.css'>"
-        ).appendTo("head");
-      } else if (message.fontFamily == "lexend-regular") {
-        $(
-          "<link rel='stylesheet' type='text/css' id='i4all-font-family' href='chrome-extension://" +
-            chrome.runtime.id +
-            "/scripts/css/lexend-regular.css'>"
-        ).appendTo("head");
-      } else {
-        $(
-          "<style id='i4all-font-family'> p,a,h1,h2,h4,h3,h5,h6,input,ul,span,strong,th,td,ul,li,ol,button  { font-family: " +
-            message.fontFamily +
-            "!important; }</style>"
-        ).appendTo("head");
-      }
+      $(
+        "<link rel='stylesheet' type='text/css' id='i4all-font-family' href='chrome-extension://" +
+          chrome.runtime.id +
+          "/scripts/css/" +
+          message.fontFamily +
+          ".css'>"
+      ).appendTo("head");
     }
   }
 
