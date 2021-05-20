@@ -6,7 +6,7 @@ chrome.runtime.onInstalled.addListener(function () {
     function (tab) {}
   );
   chrome.storage.sync.set({ ["clickedColor"]: "#3399FF80" });
-  chrome.storage.sync.set({ ["fontFamily"]: "Arial" });
+  chrome.storage.sync.set({ ["fontFamily"]: "open-dyslexic-regular" });
   chrome.storage.sync.set({ ["fontTypeButton"]: false });
   chrome.storage.sync.set({ ["fontSizeButton"]: false });
   chrome.storage.sync.set({ ["fontColorButton"]: false });
