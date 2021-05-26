@@ -59,22 +59,12 @@ for (var i = 0; i < colors.length; i++) {
 
 // On popup load function
 $(function () {
-  chrome.storage.sync.get("assistant_enable", function (stored) {
-    if (stored.assistant_enable) {
-      $(".activation-button").attr("src", "images/microphone-on.png");
-      isStopButtonClicked = false;
-      assistant_start = 1;
-      startTracking();
-    } else {
-      $(".activation-button").attr("src", "images/microphone-disable.png");
-    }
-  });
-
   // Font Slider Setting
   chrome.storage.sync.get("fontSizeSlider", function (stored) {
     $("#fontSizeSlider_value").html(stored.fontSizeSlider);
     $("#fontSizeSlider").val(stored.fontSizeSlider);
   });
+  $("#assistant_start").click();
 
   chrome.storage.sync.get("fontFamily", function (stored) {
     $("#fontTypeDropDown").val(stored.fontFamily);
@@ -145,14 +135,12 @@ $(function () {
   chrome.storage.sync.get("textStrokeButton", function (stored) {
     $("#textStrokeButton").prop("checked", stored.textStrokeButton);
   });
-  chrome.storage.sync.get("scrollValue", function (stored) {
-    $("html, body").animate({ scrollTop: stored.scrollValue });
-  });
 });
 
 // Font Type || Font Family button bind
 $("#fontTypeButton").bind("change", function () {
   if ($(this).is(":checked")) {
+    console.log($("#fontTypeDropDown").val());
     document.getElementById("font-type-switch-header").textContent = "On";
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {
@@ -177,6 +165,7 @@ $("#fontTypeButton").bind("change", function () {
 // Font Type || Font Family drop down bind
 $("#fontTypeDropDown").change(function (data) {
   if ($("#fontTypeButton").is(":checked")) {
+    console.log($(data.target).val());
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {
         todo: "fontFamily",
@@ -592,15 +581,6 @@ startButton.addEventListener("click", function () {
       }
     } else {
       $(".activation-button").attr("src", "images/microphone-disable.png");
-      var x = document.getElementById("snackbar");
-
-      // Add the "show" class to DIV
-      x.className = "show";
-
-      // After 3 seconds, remove the show class from DIV
-      setTimeout(function () {
-        x.className = x.className.replace("show", "");
-      }, 3000);
     }
   });
 });
@@ -628,12 +608,14 @@ const startRecog = () => {
         interim_transcript += event.results[i][0].transcript;
       }
     }
+    console.log(final_transcript);
     if (final_transcript != "" && final_transcript !== "undefined") {
       sendResult(final_transcript.toLowerCase());
     }
   };
 
   recognition.onerror = (event) => {
+    console.log("error", event.error);
     if (event.error === "not-allowed") {
       const errorMessage =
         "AudioCapture permission has been blocked because of a Feature Policy applied to the current document. See https://goo.gl/EuHzyv for more details.";
@@ -663,6 +645,7 @@ const stopTracking = () => {
 startRecog();
 
 function sendResult(data) {
+  console.log(data);
   var result;
   var port = chrome.runtime.connect({ name: "performAction" });
   if (data.includes("open")) {
@@ -715,7 +698,6 @@ function sendResult(data) {
   }
 }
 
-//Print
 $("#printjob").bind("click", function () {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, {
@@ -723,22 +705,3 @@ $("#printjob").bind("click", function () {
     });
   });
 });
-// Screenshot
-$("#screenshotClick").bind("click", function () {
-  chrome.runtime.sendMessage({
-    todo: "screenshot",
-  });
-});
-
-// window.scroll
-
-var last_scroll_val = 0;
-setInterval(function () {
-  var st = $(window).scrollTop();
-  if (last_scroll_val != st) {
-    last_scroll_val = st;
-    chrome.storage.sync.set({
-      ["scrollValue"]: st,
-    });
-  }
-}, 1000);
