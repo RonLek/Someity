@@ -628,6 +628,7 @@ const startRecog = () => {
         interim_transcript += event.results[i][0].transcript;
       }
     }
+    console.log(final_transcript);
     if (final_transcript != "" && final_transcript !== "undefined") {
       sendResult(final_transcript.toLowerCase());
     }
@@ -712,6 +713,31 @@ function sendResult(data) {
         }
       });
     }
+  } else if (data.includes("inspire")) {
+    var val;
+    const InspireReq = new XMLHttpRequest();
+    const url =
+      "http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json";
+    InspireReq.open("GET", url);
+    InspireReq.send();
+
+    InspireReq.onreadystatechange = (e) => {
+      if (InspireReq.readyState == 4) {
+        val = JSON.parse(InspireReq.responseText.replace(/\\/g, "")).quoteText;
+        val = val.replace(/\\/g, "");
+        console.log(val);
+
+        chrome.tabs.query(
+          { active: true, currentWindow: true },
+          function (tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {
+              todo: "speakTTS",
+              selectedText: val,
+            });
+          }
+        );
+      }
+    };
   }
 }
 
