@@ -23,12 +23,12 @@
     <div class="actions-wrapper">
       <div class="actions">
         <input
-        type="image"
-        id="assistant_start"
-        class="activation-button"
-        src="images/microphone-off.png"
-        alt="Submit Form"
-      />
+          type="image"
+          id="assistant_start"
+          class="activation-button"
+          src="images/microphone-off.png"
+          alt="Submit Form"
+        />
       </div>
     </div>
 
@@ -43,11 +43,13 @@
         <p class="font-type-select-header">Font Type</p>
         <div class="select-wrapper">
           <select id="fontTypeDropDown" class="select">
-            <option value="Arial">Arial</option>
-            <option value="Verdana">Verdana</option>
-            <option value="Impact">Impact</option>
-            <option value="Comic Sans MS">Comic Sans MS</option>
+            <option value="open-dyslexic-regular">Open Dyslexic</option>
+            <option value="lexend-regular">Lexend</option>
             <option value="sign-language">Sign Language</option>
+            <option value="arial-regular">Arial</option>
+            <option value="verdana-regular">Verdana</option>
+            <option value="impact-regular">Impact</option>
+            <option value="comic-sans-ms-regular">Comic Sans MS</option>
           </select>
         </div>
       </div>
@@ -170,9 +172,12 @@
     </div>
 
     <div class="focus-mode-wrapper">
-      <div class="color-blindness">
+      <div class="focus-mode">
         <div class="focus-mode-header">
           <p>Emphasize Links</p>
+          <p style="font-size: 15px">
+            Add multi-color underline to hyperlinks.
+          </p>
         </div>
         <div>
           <label class="switch">
@@ -180,6 +185,13 @@
             <span class="slider round"></span>
           </label>
         </div>
+      </div>
+    </div>
+
+    <div class="font-type-wrapper">
+      <div class="font-type-select-wrapper">
+        <p class="font-type-select-header">Text Stroke Color</p>
+        <div class="ts-color-picker"></div>
       </div>
 
       <div class="color-blindness">
@@ -195,13 +207,6 @@
       </div>
     </div>
 
-    <div class="font-type-wrapper">
-      <div class="font-type-select-wrapper">
-        <p class="font-type-select-header">Text Stroke Color</p>
-        <div class="ts-color-picker"></div>
-      </div>
-      </div>
-    </div>
     <div class="font-header">
       <img src="/images/printer.png" />
       <p>Print Screen</p>
@@ -210,19 +215,46 @@
       <div class="focus-mode">
         <div class="focus-mode-header">
           <p>Print</p>
-          <p style="font-size: 15px">Print the current Page.</p>
+          <p style="font-size: 15px">Print the current page.</p>
         </div>
-        <div style="margin-right: 20px;">
+        <div style="margin-right: 20px">
           <label class="button-switch">
-            <input type="button" class="printButton" id="printjob" value="Print"/>
+            <input
+              type="button"
+              class="printButton"
+              id="printjob"
+              value="Print"
+            />
           </label>
         </div>
       </div>
     </div>
-   
 
-
-
+    <div class="font-header">
+      <img src="/images/camera.png" />
+      <p>Screenshot</p>
+    </div>
+    <div class="focus-mode-wrapper">
+      <div class="focus-mode">
+        <div class="focus-mode-header">
+          <p>Screenshot</p>
+          <p style="font-size: 15px">Take a screenshot of the current page.</p>
+        </div>
+        <div style="margin-right: 48px">
+          <label class="button-switch">
+            <input
+              type="button"
+              class="screenshotButton"
+              id="screenshotClick"
+              value="Capture"
+            />
+          </label>
+        </div>
+      </div>
+    </div>
+    <div id="snackbar">
+      To enable Voice Recognition right click on Someity and click on Options
+    </div>
   </body>
   <script src="popup.js"></script>
 </html>
