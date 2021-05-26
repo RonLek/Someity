@@ -1,8 +1,8 @@
 @font-face {
-  font-family: Sign-Language;
-  font-style: normal;
-  font-weight: 400;
-  src: url("chrome-extension://__MSG_@@extension_id__/scripts/css/fonts/Sign-Language.ttf");
+	font-family: Sign-Language;
+	font-style: normal;
+	font-weight: 700;
+	src: url("chrome-extension://__MSG_@@extension_id__/scripts/css/fonts/Sign-Language.ttf");
 }
 
 p,
@@ -23,7 +23,7 @@ ul,
 li,
 ol,
 button {
-  font-family: Sign-Language !important;
-  font-size: larger;
-  word-spacing: 10px;
+	font-family: Sign-Language !important;
+	font-size: larger;
+	word-spacing: 10px;
 }
