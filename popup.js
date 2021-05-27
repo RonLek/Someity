@@ -89,6 +89,19 @@ $(function () {
     }
   });
 
+  chrome.storage.sync.get("cursorType", function (stored) {
+    $("#cursorTypeDropDown").val(stored.cursorType);
+  });
+
+  chrome.storage.sync.get("cursorTypeButton", function (stored) {
+    $("#cursorTypeButton").prop("checked", stored.cursorTypeButton);
+    if (stored.cursorTypeButton) {
+      document.getElementById("cursor-type-switch-header").textContent = "On";
+    } else {
+      document.getElementById("cursor-type-switch-header").textContent = "Off";
+    }
+  });
+
   chrome.storage.sync.get("fontSizeButton", function (stored) {
     $("#fontSizeButton").prop("checked", stored.fontSizeButton);
 
@@ -196,6 +209,30 @@ $("#fontTypeDropDown").change(function (data) {
   // chrome.storage.sync.set({
   // 	["fontTypeButton"]: $("#fontTypeButton").is(":checked"),
   // });
+});
+
+// Cursor Type Button
+$("#cursorTypeButton").bind("change", function () {
+  if ($(this).is(":checked")) {
+    document.getElementById("cursor-type-switch-header").textContent = "On";
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "cursorType",
+        cursorType: $("#cursorTypeDropDown").val(),
+        checkedButton: 1,
+      });
+    });
+  } else {
+    document.getElementById("cursor-type-switch-header").textContent = "Off";
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "cursorType",
+        checkedButton: 0,
+      });
+    });
+  }
+  chrome.storage.sync.set({ ["cursorType"]: $("#cursorTypeDropDown").val() });
+  chrome.storage.sync.set({ ["cursorTypeButton"]: $(this).is(":checked") });
 });
 
 //Font Size Slider

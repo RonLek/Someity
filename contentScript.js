@@ -168,13 +168,21 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   }
 
   //Change Cursor
-  if (message.todo == "cursor") {
-    $("body").css({
-      cursor:
-        "url(chrome-extension://" +
-        chrome.runtime.id +
-        "/images/pencil.png) 4 28,auto",
-    });
+  if (message.todo == "cursorType") {
+    if (message.checkedButton == 0) {
+      $("body").css({
+        cursor: "",
+      });
+    } else {
+      $("body").css({
+        cursor:
+          "url(chrome-extension://" +
+          chrome.runtime.id +
+          "/images/" +
+          message.cursorType +
+          ".png) 4 28,auto",
+      });
+    }
   }
 
   // Image Veil
