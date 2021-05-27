@@ -730,11 +730,12 @@ $("#screenshotClick").bind("click", function () {
   });
 });
 
-// Screenshot
+// Change Cursor
 $("#changeCursor").bind("click", function () {
-  console.log("Clicked");
-  chrome.runtime.sendMessage({
-    todo: "cursor",
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, {
+      todo: "cursor",
+    });
   });
 });
 

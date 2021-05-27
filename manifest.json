@@ -18,11 +18,10 @@
     {
       "matches": ["<all_urls>"],
 
-      "css": ["contentCss.css", "font-awesome.min.css"],
+      "css": ["contentCss.css"],
       "js": [
         "jquery-3.1.0.min.js",
         "jquery.lettering-0.6.1.min.js",
-        "jquery.awesome-cursor.min.js",
         "contentScript.js"
       ]
     }
@@ -39,7 +38,8 @@
       "resources": [
         "scripts/css/fonts/Sign-Language.ttf",
         "scripts/css/*",
-        "scripts/*"
+        "scripts/*",
+        "images/*"
       ],
       "matches": ["http://*/*", "https://*/*", "file://*/*"]
     }
