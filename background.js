@@ -58,7 +58,16 @@ chrome.tabs.onActivated.addListener(function (activeInfo) {
       }
 
       if (stored.cursorTypeButton) {
+        chrome.tabs.sendMessage(activeInfo.tabId, {
+          todo: "cursorType",
+          cursorType: stored.cursorType,
+          checkedButton: 1,
+        });
       } else {
+        chrome.tabs.sendMessage(activeInfo.tabId, {
+          todo: "cursorType",
+          checkedButton: 0,
+        });
       }
 
       if (stored.fontSizeButton) {

@@ -235,6 +235,27 @@ $("#cursorTypeButton").bind("change", function () {
   chrome.storage.sync.set({ ["cursorTypeButton"]: $(this).is(":checked") });
 });
 
+// Cursor Type DropDown Bind
+$("#cursorTypeDropDown").change(function (data) {
+  if ($("#cursorTypeButton").is(":checked")) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "cursorType",
+        cursorType: $(data.target).val(),
+        checkedButton: 1,
+      });
+    });
+  } else {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        todo: "cursorType",
+        checkedButton: 0,
+      });
+    });
+  }
+  chrome.storage.sync.set({ ["cursorType"]: $(data.target).val() });
+});
+
 //Font Size Slider
 $(document).on("input", "#fontSizeSlider", function (data) {
   $("#fontSizeSlider_value").html($(data.target).val());
