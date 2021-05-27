@@ -173,7 +173,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       cursor:
         "url(chrome-extension://" +
         chrome.runtime.id +
-        "/images/pencil.png),auto",
+        "/images/pencil.png) 4 28,auto",
     });
   }
 
