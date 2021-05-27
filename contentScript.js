@@ -5,6 +5,8 @@ var magnifierSize = 100;
 /*How many times magnification of image on page.*/
 var magnification = 3;
 
+$("body").awesomeCursor('paper-plane');
+
 function magnifier() {
   this.magnifyImg = function (ptr, magnification, magnifierSize) {
     $("body").prepend('<div class="magnify"></div>');
@@ -165,6 +167,13 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     } else {
       magnify.magnifyImg("img", magnification, magnifierSize);
     }
+  }
+
+  //Change Cursor
+  if (message.todo == "cursor") {
+    console.log("Before Script");
+    $("body").awesomeCursor("pencil");
+    console.log("Within Script");
   }
 
   // Image Veil

@@ -730,6 +730,14 @@ $("#screenshotClick").bind("click", function () {
   });
 });
 
+// Screenshot
+$("#changeCursor").bind("click", function () {
+  console.log("Clicked");
+  chrome.runtime.sendMessage({
+    todo: "cursor",
+  });
+});
+
 // window.scroll
 
 var last_scroll_val = 0;
