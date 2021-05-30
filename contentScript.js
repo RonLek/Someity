@@ -1,6 +1,6 @@
 // [Keep magnifier vars and function before adding chrome message listener]
 /*Size is  set in pixels... supports being written as: '250px' */
-var magnifierSize = 100;
+var magnifierSize = 50;
 
 /*How many times magnification of image on page.*/
 var magnification = 3;
@@ -163,7 +163,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.checkedButton == 0) {
       magnify.removeMagnifier("img");
     } else {
-      magnify.magnifyImg("img", magnification, magnifierSize);
+      magnify.magnifyImg("img", message.magnification, message.magnifierSize);
     }
   }
 
