@@ -8,7 +8,7 @@ chrome.runtime.onInstalled.addListener(function () {
   chrome.storage.sync.set({ ["clickedColor"]: "#3399FF80" });
   chrome.storage.sync.set({ ["fontFamily"]: "open-dyslexic-regular" });
   chrome.storage.sync.set({ ["fontTypeButton"]: false });
-  chrome.storage.sync.set({ ["cursorType"]: "pencil" });
+  chrome.storage.sync.set({ ["cursorType"]: "arrow.png" });
   chrome.storage.sync.set({ ["cursorTypeButton"]: false });
   chrome.storage.sync.set({ ["fontSizeButton"]: false });
   chrome.storage.sync.set({ ["fontColorButton"]: false });
