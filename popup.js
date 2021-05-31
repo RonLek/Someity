@@ -99,12 +99,6 @@ $(function () {
     }
   });
 
-  // Font Slider Setting
-  chrome.storage.sync.get("fontSizeSlider", function (stored) {
-    $("#fontSizeSlider_value").html(stored.fontSizeSlider);
-    $("#fontSizeSlider").val(stored.fontSizeSlider);
-  });
-
   // Font Color Button Setting
   chrome.storage.sync.get("fontColorButton", function (stored) {
     $("#fontColorButton").prop("checked", stored.fontColorButton);
@@ -124,6 +118,18 @@ $(function () {
   // Magnify Button Setting
   chrome.storage.sync.get("magnifyButton", function (stored) {
     $("#magnifierButton").prop("checked", stored.magnifyButton);
+  });
+
+  // Magnifier Size Setting
+  chrome.storage.sync.get("magnifierSizeSlider", function (stored) {
+    $("#magnifierSizeSlider_value").html(stored.magnifierSizeSlider);
+    $("#magnifierSizeSlider").val(stored.magnifierSizeSlider);
+  });
+
+  // Magnification Setting
+  chrome.storage.sync.get("magnificationSlider", function (stored) {
+    $("#magnificationSlider_value").html(stored.magnificationSlider);
+    $("#magnificationSlider").val(stored.magnificationSlider);
   });
 
   // Image Veil Setting
@@ -307,6 +313,8 @@ $("#magnifierButton").bind("change", function (data) {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, {
       todo: "magnify",
+      magnifierSize: $("#magnifierSizeSlider").val(),
+      magnification: $("#magnificationSlider").val(),
       checkedButton: $(data.target).is(":checked") ? 1 : 0,
     });
   });
@@ -315,168 +323,50 @@ $("#magnifierButton").bind("change", function (data) {
   });
 });
 
-// Image Veil Button
-$("#imageVeilButton").bind("change", function (data) {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, {
-      todo: "imageVeil",
-      checkedButton: $(data.target).is(":checked") ? 1 : 0,
-    });
-  });
-  chrome.storage.sync.set({
-    ["imageVeilButton"]: $(data.target).is(":checked"),
-  });
-});
-
-// Highlight Words Button
-$("#highlightWordsButton").bind("change", function (data) {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, {
-      todo: "highlight",
-      checkedButton: $(data.target).is(":checked") ? 1 : 0,
-    });
-  });
-  chrome.storage.sync.set({
-    ["highlightWordsButton"]: $(data.target).is(":checked"),
-  });
-});
-
-// Emphasize Links Button
-$("#emphasizeLinksButton").bind("change", function (data) {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, {
-      todo: "emphasizeLinks",
-      checkedButton: $(data.target).is(":checked") ? 1 : 0,
-    });
-  });
-  chrome.storage.sync.set({
-    ["emphasizeLinksButton"]: $(data.target).is(":checked"),
-  });
-});
-
-//Text Stroke Button
-$("#textStrokeButton").bind("change", function (data) {
-  var pickedColor = $("input[name=ts-color]:checked");
-  if ($(data.target).is(":checked")) {
-    if (pickedColor.length > 0) {
-      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {
-          todo: "textStroke",
-          textStrokeColor: pickedColor[0].value,
-          checkedButton: 1,
-        });
-      });
-    }
-  } else {
+//Magnifier Size Slider
+$(document).on("input", "#magnifierSizeSlider", function (data) {
+  $("#magnifierSizeSlider_value").html($(data.target).val());
+  if ($("#magnifierButton").is(":checked")) {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {
-        todo: "textStroke",
-        checkedButton: 0,
-      });
-    });
-  }
-  chrome.storage.sync.set({
-    ["textStrokeColor"]:
-      pickedColor.length > 0 ? pickedColor[0].value : "#C0382B",
-  });
-  chrome.storage.sync.set({
-    ["textStrokeColorId"]:
-      pickedColor.length > 0 ? pickedColor[0].id : "color-12",
-  });
-  chrome.storage.sync.set({
-    ["textStrokeButton"]: $(data.target).is(":checked"),
-  });
-});
-
-// Text Stroke Color Palette
-$("input[name=ts-color]").bind("change", function (data) {
-  if ($("#textStrokeButton").is(":checked")) {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {
-        todo: "textStroke",
-        textStrokeColor: $(data.target).val(),
+        todo: "magnify",
+        magnifierSize: $(data.target).val(),
+        magnification: $("#magnificationSlider").val(),
         checkedButton: 1,
       });
     });
   } else {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {
-        todo: "textStroke",
+        todo: "magnify",
         checkedButton: 0,
       });
     });
   }
-  chrome.storage.sync.set({ ["textStrokeColor"]: $(data.target).val() });
-  chrome.storage.sync.set({ ["textStrokeColorId"]: $(data.target).attr("id") });
+  chrome.storage.sync.set({ ["magnifierSizeSlider"]: $(data.target).val() });
 });
 
-//Font Color Button
-$("#fontColorButton").bind("change", function (data) {
-  var pickedColor = $("input[name=color]:checked");
-  if ($(data.target).is(":checked")) {
-    document.getElementById("font-color-switch-header").textContent = "On";
-    if (pickedColor.length > 0) {
-      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {
-          todo: "fontColor",
-          fontColor: pickedColor[0].value,
-          checkedButton: 1,
-        });
-      });
-    }
-  } else {
-    document.getElementById("font-color-switch-header").textContent = "Off";
+//Magnification Slider
+$(document).on("input", "#magnificationSlider", function (data) {
+  $("#magnificationSlider_value").html($(data.target).val());
+  if ($("#magnifierButton").is(":checked")) {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {
-        todo: "fontColor",
-        checkedButton: 0,
-      });
-    });
-  }
-  chrome.storage.sync.set({
-    ["fontColor"]: pickedColor.length > 0 ? pickedColor[0].value : "#C0382B",
-  });
-  chrome.storage.sync.set({
-    ["fontColorId"]: pickedColor.length > 0 ? pickedColor[0].id : "color-12",
-  });
-  chrome.storage.sync.set({
-    ["fontColorButton"]: $(data.target).is(":checked"),
-  });
-});
-
-// Font Color Palette
-$("input[name=color]").bind("change", function (data) {
-  if ($("#fontColorButton").is(":checked")) {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {
-        todo: "fontColor",
-        fontColor: $(data.target).val(),
+        todo: "magnify",
+        magnifierSize: $("#magnifierSizeSlider").val(),
+        magnification: $(data.target).val(),
         checkedButton: 1,
       });
     });
   } else {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {
-        todo: "fontColor",
+        todo: "magnify",
         checkedButton: 0,
       });
     });
   }
-  chrome.storage.sync.set({ ["fontColor"]: $(data.target).val() });
-  chrome.storage.sync.set({ ["fontColorId"]: $(data.target).attr("id") });
-});
-
-// Magnifier Button
-$("#magnifierButton").bind("change", function (data) {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, {
-      todo: "magnify",
-      checkedButton: $(data.target).is(":checked") ? 1 : 0,
-    });
-  });
-  chrome.storage.sync.set({
-    ["magnifyButton"]: $(data.target).is(":checked"),
-  });
+  chrome.storage.sync.set({ ["magnificationSlider"]: $(data.target).val() });
 });
 
 // Image Veil Button

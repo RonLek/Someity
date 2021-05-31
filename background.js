@@ -20,6 +20,8 @@ chrome.runtime.onInstalled.addListener(function () {
   chrome.storage.sync.set({ ["textStrokeColor"]: "#C0382B" });
   chrome.storage.sync.set({ ["textStrokeColorId"]: "color-12" });
   chrome.storage.sync.set({ ["scrollValue"]: 0 });
+  chrome.storage.sync.set({ ["magnifierSizeSlider"]: 50 });
+  chrome.storage.sync.set({ ["magnificationSlider"]: 3 });
 });
 
 // On Tab Change
@@ -38,6 +40,8 @@ chrome.tabs.onActivated.addListener(function (activeInfo) {
       "emphasizeLinksButton",
       "textStrokeButton",
       "textStrokeColor",
+      "magnifierSizeSlider",
+      "magnificationSlider",
     ],
     function (stored) {
       if (stored.fontTypeButton) {
@@ -79,10 +83,19 @@ chrome.tabs.onActivated.addListener(function (activeInfo) {
         });
       }
 
-      chrome.tabs.sendMessage(activeInfo.tabId, {
-        todo: "magnify",
-        checkedButton: stored.magnifyButton ? 1 : 0,
-      });
+      if (stored.magnifyButton) {
+        chrome.tabs.sendMessage(activeInfo.tabId, {
+          todo: "magnify",
+          magnifierSize: stored.magnifierSizeSlider,
+          magnification: stored.magnificationSlider,
+          checkedButton: 1,
+        });
+      } else {
+        chrome.tabs.sendMessage(activeInfo.tabId, {
+          todo: "magnify",
+          checkedButton: 0,
+        });
+      }
 
       chrome.tabs.sendMessage(activeInfo.tabId, {
         todo: "imageVeil",
