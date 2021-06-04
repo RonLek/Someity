@@ -169,7 +169,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
   //Change Cursor
   if (message.todo == "cursorType") {
-    console.log(message);
     if (message.checkedButton == 0) {
       $("body").css({
         cursor: "",
