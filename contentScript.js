@@ -167,6 +167,24 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     }
   }
 
+  //Change Cursor
+  if (message.todo == "cursorType") {
+    if (message.checkedButton == 0) {
+      $("body").css({
+        cursor: "",
+      });
+    } else {
+      $("body").css({
+        cursor:
+          "url(chrome-extension://" +
+          chrome.runtime.id +
+          "/images/" +
+          message.cursorType +
+          ") 4 28,auto",
+      });
+    }
+  }
+
   // Image Veil
   if (message.todo == "imageVeil") {
     if (images.length === 0 && imageSource.length === 0) {

@@ -38,7 +38,8 @@
       "resources": [
         "scripts/css/fonts/Sign-Language.ttf",
         "scripts/css/*",
-        "scripts/*"
+        "scripts/*",
+        "images/*"
       ],
       "matches": ["http://*/*", "https://*/*", "file://*/*"]
     }
