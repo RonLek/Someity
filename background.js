@@ -219,3 +219,140 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     });
   }
 });
+
+// Keyboard Shortcuts
+chrome.commands.onCommand.addListener(function (command) {
+  chrome.storage.sync.get(
+    [
+      "imageVeilButton",
+      "highlightWordsButton",
+      "magnifyButton",
+      "magnifierSizeSlider",
+      "magnificationSlider",
+      "emphasizeLinksButton",
+    ],
+    function (stored) {
+      if (command === "toggle-image-veil") {
+        if (stored.imageVeilButton) {
+          chrome.tabs.query(
+            { active: true, currentWindow: true },
+            function (tabs) {
+              chrome.tabs.sendMessage(tabs[0].id, {
+                todo: "imageVeil",
+                checkedButton: 0,
+              });
+            }
+          );
+          chrome.storage.sync.set({
+            ["imageVeilButton"]: 0,
+          });
+        } else {
+          chrome.tabs.query(
+            { active: true, currentWindow: true },
+            function (tabs) {
+              chrome.tabs.sendMessage(tabs[0].id, {
+                todo: "imageVeil",
+                checkedButton: 1,
+              });
+            }
+          );
+          chrome.storage.sync.set({
+            ["imageVeilButton"]: 1,
+          });
+        }
+      }
+
+      if (command === "toggle-highlight-words") {
+        if (stored.highlightWordsButton) {
+          chrome.tabs.query(
+            { active: true, currentWindow: true },
+            function (tabs) {
+              chrome.tabs.sendMessage(tabs[0].id, {
+                todo: "highlight",
+                checkedButton: 0,
+              });
+            }
+          );
+          chrome.storage.sync.set({
+            ["highlightWordsButton"]: 0,
+          });
+        } else {
+          chrome.tabs.query(
+            { active: true, currentWindow: true },
+            function (tabs) {
+              chrome.tabs.sendMessage(tabs[0].id, {
+                todo: "highlight",
+                checkedButton: 1,
+              });
+            }
+          );
+          chrome.storage.sync.set({
+            ["highlightWordsButton"]: 1,
+          });
+        }
+      }
+
+      if (command === "toggle-magnifier") {
+        if (stored.magnifyButton) {
+          chrome.tabs.query(
+            { active: true, currentWindow: true },
+            function (tabs) {
+              chrome.tabs.sendMessage(tabs[0].id, {
+                todo: "magnify",
+                checkedButton: 0,
+              });
+            }
+          );
+          chrome.storage.sync.set({
+            ["magnifyButton"]: false,
+          });
+        } else {
+          chrome.tabs.query(
+            { active: true, currentWindow: true },
+            function (tabs) {
+              chrome.tabs.sendMessage(tabs[0].id, {
+                todo: "magnify",
+                magnifierSize: stored.magnifierSizeSlider,
+                magnification: stored.magnificationSlider,
+                checkedButton: 1,
+              });
+            }
+          );
+          chrome.storage.sync.set({
+            ["magnifyButton"]: true,
+          });
+        }
+      }
+
+      if (command === "toggle-emphasize-links") {
+        if (stored.emphasizeLinksButton) {
+          chrome.tabs.query(
+            { active: true, currentWindow: true },
+            function (tabs) {
+              chrome.tabs.sendMessage(tabs[0].id, {
+                todo: "emphasizeLinks",
+                checkedButton: 0,
+              });
+            }
+          );
+          chrome.storage.sync.set({
+            ["emphasizeLinksButton"]: 0,
+          });
+        } else {
+          chrome.tabs.query(
+            { active: true, currentWindow: true },
+            function (tabs) {
+              chrome.tabs.sendMessage(tabs[0].id, {
+                todo: "emphasizeLinks",
+                checkedButton: 1,
+              });
+            }
+          );
+          chrome.storage.sync.set({
+            ["emphasizeLinksButton"]: 1,
+          });
+        }
+      }
+    }
+  );
+});
