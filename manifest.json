@@ -1,7 +1,7 @@
 {
   "name": "Someity",
   "description": "Making the Web Accessible for All",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
@@ -47,25 +47,37 @@
   "commands": {
     "toggle-image-veil": {
       "suggested_key": {
-        "default": "Alt+Shift+V"
+        "windows": "Alt+Shift+V",
+        "mac": "Alt+Shift+V",
+        "chromeos": "Alt+Shift+V",
+        "linux": "Alt+Shift+V"
       },
       "description": "Toggle Image Veil"
     },
     "toggle-highlight-words": {
       "suggested_key": {
-        "default": "Alt+Shift+H"
+        "windows": "Alt+Shift+H",
+        "mac": "Alt+Shift+H",
+        "chromeos": "Alt+Shift+H",
+        "linux": "Alt+Shift+H"
       },
       "description": "Toggle Highlight Words"
     },
     "toggle-magnifier": {
       "suggested_key": {
-        "default": "Alt+Shift+M"
+        "windows": "Alt+Shift+M",
+        "mac": "Alt+Shift+M",
+        "chromeos": "Alt+Shift+M",
+        "linux": "Alt+Shift+M"
       },
       "description": "Toggle Magnifier"
     },
     "toggle-emphasize-links": {
       "suggested_key": {
-        "default": "Alt+Shift+E"
+        "windows": "Alt+Shift+E",
+        "mac": "Alt+Shift+E",
+        "chromeos": "Alt+Shift+E",
+        "linux": "Alt+Shift+E"
       },
       "description": "Toggle Emphasize Links"
     }
