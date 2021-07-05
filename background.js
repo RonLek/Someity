@@ -1,10 +1,13 @@
 // On Install
-chrome.runtime.onInstalled.addListener(function () {
+chrome.runtime.onInstalled.addListener(function (details) {
   chrome.storage.sync.set({ ["assistant_enable"]: 1 });
-  chrome.tabs.create(
-    { url: `chrome-extension://${chrome.runtime.id}/options.html` },
-    function (tab) {}
-  );
+  if (details.reason == "install") {
+    chrome.tabs.create(
+      { url: `chrome-extension://${chrome.runtime.id}/options.html` },
+      function (tab) {}
+    );
+  }
+
   chrome.storage.sync.set({ ["clickedColor"]: "#3399FF80" });
   chrome.storage.sync.set({ ["fontFamily"]: "open-dyslexic-regular" });
   chrome.storage.sync.set({ ["fontTypeButton"]: false });
