@@ -6,6 +6,11 @@ chrome.runtime.onInstalled.addListener(function (details) {
       { url: `chrome-extension://${chrome.runtime.id}/options.html` },
       function (tab) {}
     );
+    // Setting on new install
+    chrome.runtime.setUninstallURL('https://someity.tech/feedback');
+  } else {
+    // Setting for everyone else having already installed
+    chrome.runtime.setUninstallURL('https://someity.tech/feedback');
   }
 
   chrome.storage.sync.set({ ["clickedColor"]: "#3399FF80" });
