@@ -7,10 +7,10 @@ chrome.runtime.onInstalled.addListener(function (details) {
       function (tab) {}
     );
     // Setting on new install
-    chrome.runtime.setUninstallURL('https://someity.tech/feedback');
-  } else {
+    chrome.runtime.setUninstallURL("https://someity.tech/feedback");
+  } else if (details.reason == "update") {
     // Setting for everyone else having already installed
-    chrome.runtime.setUninstallURL('https://someity.tech/feedback');
+    chrome.runtime.setUninstallURL("https://someity.tech/feedback");
   }
 
   chrome.storage.sync.set({ ["clickedColor"]: "#3399FF80" });
