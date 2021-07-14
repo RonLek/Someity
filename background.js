@@ -195,13 +195,38 @@ chrome.runtime.onConnect.addListener(function (port) {
 });
 
 // Context Menu
-var menuItem = {
+var speakItem = {
   id: "Speak",
   title: "Speak",
   contexts: ["selection"],
 };
 
-chrome.contextMenus.create(menuItem);
+/*
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+*/
+var translateItem = {
+  id: "Translate",
+  title: "Translate",
+  contexts: ["page"],
+};
+
+var englishItem = {
+  id: "English",
+  title: "English",
+  contexts: ["page"],
+  parentId: "Translate",
+};
+
+chrome.contextMenus.create(translateItem);
+chrome.contextMenus.create(englishItem);
+chrome.contextMenus.create(speakItem);
 
 chrome.contextMenus.onClicked.addListener(function (clickData, tabdata) {
   if (clickData.menuItemId == "Speak" && clickData.selectionText) {
